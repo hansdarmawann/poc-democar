@@ -1,102 +1,51 @@
 from tabulate import tabulate
-# import validation
 import datetime
 
 mobil = [
     {
-        "platNo":"B1071PDM",
-        "merk":"Land Rover",
-        "nama":"Range Rover",
-        "trim":"SE 3.0 PHEV LWB",
-        "tipe":"SUV",
-        "bahanBakar":"Hybrid",
-        "statusEnergi":0.9,
-        "warna":"Belgravia Green",
-        "kondisi":"Mulus",
-        "ketersediaan":True
+        "platNo": "B1071PDM",
+        "namaMobil": "Range Rover P440e",
+        "deskripsi": "PHEV, Hybrid, Belgravia Green",
+        "kilometer": 12345.678,
+        "statusEnergi": 0.9,
+        "kondisi": "Mulus",
+        "ketersediaan": False,
+        "namaPeminjam": "Fitra Eri",
+        "kontak": "081234567891",
+        "tanggalPeminjaman": datetime.date(2024, 6, 24),
+        "tanggalKembali": datetime.date(2024, 6, 30),
+        "alasan": "Keperluan Review"
     },
     {
-        "platNo":"B1606PEL",
-        "merk":"Mercedes Benz",
-        "nama":"G Class",
-        "trim":"G63 AMG",
-        "tipe":"SUV",
-        "bahanBakar":"Hybrid",
-        "statusEnergi":0.75,
-        "warna":"MANUFAKTUR night black magno",
-        "kondisi":"Mulus",
-        "ketersediaan":False
-    }
-]
-
-peminjaman = [
-    {
-        "platNo":"B1606PEL",
-        "detailMobil":"Mercedes Benz G Class G63 AMG - MANUFAKTUR night black magno",
-        "namaPeminjam":"Fitra Eri",
-        "noSIMA":"123456789",
-        "noTelp":"08123456789",
-        "alasan":"Keperluan review",
-        "tanggalPinjam":datetime.datetime(2024,6,24),
-        "tanggalKembali":datetime.datetime(2024,6,30)
+        "platNo": "B1010LKX",
+        "namaMobil": "Mercedes Benz G63 AMG",
+        "deskripsi": "Bensin, Black Metallic",
+        "kilometer": 901.23,
+        "statusEnergi": 0.75,
+        "kondisi": "Mulus",
+        "ketersediaan": True,
+        "namaPeminjam": "",
+        "kontak": "",
+        "tanggalPeminjaman": "",
+        "tanggalKembali": "",
+        "alasan": ""
     }
 ]
 
 def lihatMobil(plat):
     cari = False
     if plat == "":
-        print(tabulate(mobil, headers="keys"))
+        data = mobil
     else:
         for item in mobil:
-            if item["platNo"]==plat:
+            if item["platNo"] == plat:
                 cari = True
         if cari:
-            pilih = [row for row in mobil if row["platNo"] == plat]
-            hasil = tabulate(pilih, headers="keys")
-            print(hasil)
+            data = [row for row in mobil if row["platNo"] == plat]
         else:
             print("Data tidak ditemukan.")
-
-def lihatPeminjaman(plat):
-    cari = False
-    if plat == "":
-        print(tabulate(peminjaman, headers="keys"))
-    else:
-        for item in peminjaman:
-            if item["platNo"]==plat:
-                cari = True
-        if cari:
-            pilih = [row for row in peminjaman if row["platNo"] == plat]
-            hasil = tabulate(pilih, headers="keys")
-            print(hasil)
-        else:
-            print("Data tidak ditemukan.")
-
-def lihatData():
-    while True:
-        try:
-            print("""
-            Lihat Data
-                1. Lihat Mobil
-                2. Lihat Peminjaman
-                3. Kembali ke Menu Utama
-            """
-            )
-            menu = int(input("Masukkan input anda: "))
-            if menu == 1:
-                plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ","")    
-                lihatMobil(plat)
-                lihatData()
-            elif menu == 2:
-                plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ","")   
-                lihatPeminjaman(plat)
-                lihatData()
-            else:
-                print("Kembali ke menu utama.")
-                break
-        except:
-            print("Input tidak valid. Silahkan input ulang.")
-            lihatData()
+            return
+    print(tabulate(data,headers="keys", maxcolwidths=[11 for i in range(12)]))
 
 def main():
     while True:
@@ -106,29 +55,20 @@ def main():
             Silahkan Pilih Menu yang Tersedia di Bawah  :
                 1. Lihat Data
                 2. Tambah Mobil
-                3. Pinjam Mobil
-                4. Kembalikan Mobil
-                5. Hapus Mobil
-                6. Keluar
+                3. Update Mobil
+                4. Hapus Mobil
+                5. Keluar
             """)
             menu = int(input("Masukkan input anda: "))
             if menu == 1:
-                lihatData()
-                main()
-            elif menu == 6:
+                plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ", "")
+                lihatMobil(plat)
+            elif menu == 5:
                 print("Terima kasih, sampai jumpa !")
                 break
 
-        except:
+        except ValueError:
             print("Input tidak valid. Silahkan input ulang.")
-            main()
 
-
-main()
-
-# Validation berguna untuk validasi menu
-# try:
-#     a = "B1474PDC"
-#     print(validation.validate_text(a, pattern='[A-Z]{3}[0-9]{4}[A-Z]{3}'))
-# except:
-#     lihatPeminjaman(a)
+if __name__ == "__main__":
+    main()
