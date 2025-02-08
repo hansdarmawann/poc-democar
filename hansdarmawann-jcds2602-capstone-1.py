@@ -26,11 +26,13 @@ mobil = [
     }
 ]
 
-def lihatMobil():
-    print(tabulate(mobil, headers="keys"))
+def lihatMobil(plat):
+    if plat == "":
+        print(tabulate(mobil, headers="keys"))
+    else:
+        filter = [row for row in mobil if row["platNo"] == plat]
+        filtered_table = tabulate(filter, headers="keys")
+        print(filtered_table)
 
-plat = ""
-filter = [row for row in mobil if row["platNo"] == 'B1071PDM']
-print(filter)
-filtered_table = tabulate(filter, headers="keys")
-print(filtered_table)
+lihatMobil("")
+lihatMobil("B1474PDC")
