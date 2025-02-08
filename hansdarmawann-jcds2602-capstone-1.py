@@ -31,7 +31,7 @@ mobil = [
 
 peminjaman = [
     {
-        "platNo":"B1474PDC",
+        "platNo":"B1606PEL",
         "detailMobil":"Mercedes Benz G Class G63 AMG - MANUFAKTUR night black magno",
         "namaPeminjam":"Fitra Eri",
         "noSIMA":"123456789",
