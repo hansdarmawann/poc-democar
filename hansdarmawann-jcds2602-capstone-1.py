@@ -16,14 +16,14 @@ mobil = [
         "ketersediaan":True
     },
     {
-        "platNo":"B1474PDC",
-        "merk":"Land Rover",
-        "nama":"Range Rover Sport",
-        "trim":"Dynamic SE 3.0 PHEV",
+        "platNo":"B1606PEL",
+        "merk":"Mercedes Benz",
+        "nama":"G Class",
+        "trim":"G63 AMG",
         "tipe":"SUV",
         "bahanBakar":"Hybrid",
         "statusEnergi":0.75,
-        "warna":"Borasco Grey",
+        "warna":"MANUFAKTUR night black magno",
         "kondisi":"Mulus",
         "ketersediaan":False
     }
@@ -32,7 +32,7 @@ mobil = [
 peminjaman = [
     {
         "platNo":"B1474PDC",
-        "detailMobil":"Land Rover Range Rover Sport Dynamic SE 3.0 PHEV - Borasco Grey",
+        "detailMobil":"Mercedes Benz G Class G63 AMG - MANUFAKTUR night black magno",
         "namaPeminjam":"Fitra Eri",
         "noSIMA":"123456789",
         "noTelp":"08123456789",
@@ -51,9 +51,9 @@ def lihatMobil(plat):
             if item["platNo"]==plat:
                 cari = True
         if cari:
-            filter = [row for row in mobil if row["platNo"] == plat]
-            filtered_table = tabulate(filter, headers="keys")
-            print(filtered_table)
+            pilih = [row for row in mobil if row["platNo"] == plat]
+            hasil = tabulate(pilih, headers="keys")
+            print(hasil)
         else:
             print("Data tidak ditemukan.")
 
@@ -66,40 +66,65 @@ def lihatPeminjaman(plat):
             if item["platNo"]==plat:
                 cari = True
         if cari:
-            filter = [row for row in peminjaman if row["platNo"] == plat]
-            filtered_table = tabulate(filter, headers="keys")
-            print(filtered_table)
+            pilih = [row for row in peminjaman if row["platNo"] == plat]
+            hasil = tabulate(pilih, headers="keys")
+            print(hasil)
         else:
             print("Data tidak ditemukan.")
 
 def lihatData():
-    try:
-        print("""
-        Lihat Data
-            1. Lihat Mobil
-            2. Lihat Peminjaman
-            3. Kembali ke Menu Utama
-        """
-        )
-        menu = int(input("Masukkan input anda: "))
-        if menu == 1:
-            plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ","")    
-            lihatMobil(plat)
+    while True:
+        try:
+            print("""
+            Lihat Data
+                1. Lihat Mobil
+                2. Lihat Peminjaman
+                3. Kembali ke Menu Utama
+            """
+            )
+            menu = int(input("Masukkan input anda: "))
+            if menu == 1:
+                plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ","")    
+                lihatMobil(plat)
+                lihatData()
+            elif menu == 2:
+                plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ","")   
+                lihatPeminjaman(plat)
+                lihatData()
+            else:
+                print("Kembali ke menu utama.")
+                break
+        except:
+            print("Input tidak valid. Silahkan input ulang.")
             lihatData()
-        elif menu == 2:
-            plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ","")   
-            lihatPeminjaman(plat)
-            lihatData()
-        else:
-            main()
-    except:
-        print("Input tidak valid. Silahkan input ulang.")
-        lihatData()
 
 def main():
-    print("Test")
+    while True:
+        try:
+            print("""
+            Selamat Datang di Sistem Peminjaman Mobil Demo XYZ
+            Silahkan Pilih Menu yang Tersedia di Bawah  :
+                1. Lihat Data
+                2. Tambah Mobil
+                3. Pinjam Mobil
+                4. Kembalikan Mobil
+                5. Hapus Mobil
+                6. Keluar
+            """)
+            menu = int(input("Masukkan input anda: "))
+            if menu == 1:
+                lihatData()
+                main()
+            elif menu == 6:
+                print("Terima kasih, sampai jumpa !")
+                break
 
-lihatData()
+        except:
+            print("Input tidak valid. Silahkan input ulang.")
+            main()
+
+
+main()
 
 # Validation berguna untuk validasi menu
 # try:
