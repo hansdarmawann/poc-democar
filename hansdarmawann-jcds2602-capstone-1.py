@@ -1,5 +1,5 @@
 from tabulate import tabulate
-import validation
+# import validation
 import datetime
 
 mobil = [
@@ -43,26 +43,63 @@ peminjaman = [
 ]
 
 def lihatMobil(plat):
-    if len(mobil) == 0:
-        print("Tidak ada mobil yang tersedia.")
+    cari = False
+    if plat == "":
+        print(tabulate(mobil, headers="keys"))
     else:
-        if plat == "":
-            print(tabulate(mobil, headers="keys"))
-        else:
+        for item in mobil:
+            if item["platNo"]==plat:
+                cari = True
+        if cari:
             filter = [row for row in mobil if row["platNo"] == plat]
             filtered_table = tabulate(filter, headers="keys")
             print(filtered_table)
+        else:
+            print("Data tidak ditemukan.")
 
 def lihatPeminjaman(plat):
-    if len(peminjaman) == 0:
-        print("Tidak ada peminjaman yang sedang berjalan.")
+    cari = False
+    if plat == "":
+        print(tabulate(peminjaman, headers="keys"))
     else:
-        if plat == "":
-            print(tabulate(peminjaman, headers="keys"))
-        else:
+        for item in peminjaman:
+            if item["platNo"]==plat:
+                cari = True
+        if cari:
             filter = [row for row in peminjaman if row["platNo"] == plat]
             filtered_table = tabulate(filter, headers="keys")
             print(filtered_table)
+        else:
+            print("Data tidak ditemukan.")
+
+def lihatData():
+    try:
+        print("""
+        Lihat Data
+            1. Lihat Mobil
+            2. Lihat Peminjaman
+            3. Kembali ke Menu Utama
+        """
+        )
+        menu = int(input("Masukkan input anda: "))
+        if menu == 1:
+            plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ","")    
+            lihatMobil(plat)
+            lihatData()
+        elif menu == 2:
+            plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ").upper().replace(" ","")   
+            lihatPeminjaman(plat)
+            lihatData()
+        else:
+            main()
+    except:
+        print("Input tidak valid. Silahkan input ulang.")
+        lihatData()
+
+def main():
+    print("Test")
+
+lihatData()
 
 # Validation berguna untuk validasi menu
 # try:
