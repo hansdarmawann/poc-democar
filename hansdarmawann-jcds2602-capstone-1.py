@@ -4,8 +4,8 @@ import datetime
 mobil = [
     {
         "platNo": "B1071PDM",
-        "namaMobil": "Range Rover P440e",
-        "deskripsi": "PHEV, Hybrid, Belgravia Green",
+        "namaMobil": "Range Rover P615",
+        "deskripsi": "SV, PHEV, British Racing Green",
         "kilometer": 12345.678,
         "statusEnergi": 0.9,
         "kondisi": "Mulus",
@@ -19,7 +19,7 @@ mobil = [
     {
         "platNo": "B1010LKX",
         "namaMobil": "Mercedes Benz G63 AMG",
-        "deskripsi": "Bensin, Black Metallic",
+        "deskripsi": "Bensin, Blue Metallic",
         "kilometer": 901.23,
         "statusEnergi": 0.75,
         "kondisi": "Mulus",
