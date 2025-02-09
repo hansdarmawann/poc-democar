@@ -1,5 +1,6 @@
 from tabulate import tabulate
 import datetime
+import os
 
 mobil = [
     {
@@ -49,10 +50,9 @@ def lihatMobil(plat):
                 return 
                 # Kalau gak ada return, maka Terjadi kesalahan saat mencetak data: cannot access local variable 'data' where it is not associated with a value.
                 # Kenapa ? Karena data kosong, sehingga tabulate bingung mau apa.
-
-            print(tabulate(data, headers="keys", maxcolwidths=[12 for i in range(12)]))
+        print(tabulate(data, headers="keys", maxcolwidths=[12 for i in range(12)]))
     except Exception as e:
-        print("Terjadi kesalahan saat mencetak data:", e)
+        print("Terjadi kesalahan saat mencetak data:")
 
 
 def hapusMobil(plat):
@@ -88,20 +88,24 @@ def main():
         if menu == 1:
             plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ")
             lihatMobil(plat)
-            main()
+            lanjutkan()
         if menu == 4:
             lihatMobil("")
             print()
             plat = input("Masukkan plat nomor anda: ")
             hapusMobil(plat)
-            main()
+            lanjutkan()
         elif menu == 5:
             print("Terima kasih, sampai jumpa !")
             exit()
 
     except Exception as e:
         print("Input tidak valid. Silahkan input ulang.")
-        # print(e) # Uncomment jika ingin trace error.
+
+def lanjutkan():
+    input("Tekan Enter untuk continue...")
+    os.system("cls") #ganti parameternya jadi "clear" jika MacOS atau Linux
+    main()
 
 if __name__ == "__main__":
     main()
