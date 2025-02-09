@@ -33,23 +33,24 @@ mobil = [
 ]
 
 def lihatMobil(plat):
-    plat = plat.upper().replace(" ","")
-    cari = False
-    if plat == "":
-        data = mobil
-    else:
-        for item in mobil:
-            if item["platNo"] == plat:
-                cari = True
-        if cari:
-            data = [row for row in mobil if row["platNo"] == plat]
-        else:
-            print("Data tidak ditemukan.")
-            return 
-            # Kalau gak ada return, maka Terjadi kesalahan saat mencetak data: cannot access local variable 'data' where it is not associated with a value.
-            # Kenapa ? Karena data kosong, sehingga tabulate bingung mau apa.
     try:
-        print(tabulate(data, headers="keys", maxcolwidths=[12 for i in range(12)]))
+        plat = plat.upper().replace(" ","")
+        cari = False
+        if plat == "":
+            data = mobil
+        else:
+            for item in mobil:
+                if item["platNo"] == plat:
+                    cari = True
+            if cari:
+                data = [row for row in mobil if row["platNo"] == plat]
+            else:
+                print("Data tidak ditemukan.")
+                return 
+                # Kalau gak ada return, maka Terjadi kesalahan saat mencetak data: cannot access local variable 'data' where it is not associated with a value.
+                # Kenapa ? Karena data kosong, sehingga tabulate bingung mau apa.
+
+            print(tabulate(data, headers="keys", maxcolwidths=[12 for i in range(12)]))
     except Exception as e:
         print("Terjadi kesalahan saat mencetak data:", e)
 
