@@ -52,25 +52,28 @@ def lihatMobil(plat):
                 # Kenapa ? Karena data kosong, sehingga tabulate bingung mau apa.
         print(tabulate(data, headers="keys", maxcolwidths=[12 for i in range(12)]))
     except Exception as e:
-        print("Terjadi kesalahan saat mencetak data:")
+        print("Terjadi kesalahan saat mencetak data.")
 
 
 def hapusMobil(plat):
-    plat = plat.upper().replace(" ","")
-    cari = False
-    for item in mobil:
-        if item["platNo"] == plat and item["ketersediaan"] == True:
-            cari = True
-            mobil.remove(item)
-            print("Data terhapus.")
-            break
-        elif item["platNo"] == plat and item["ketersediaan"] == False:
-            cari = True
-            print("Mobil harus dikembalikan dulu, baru bisa dihapus.")
-            break
+    try:
+        plat = plat.upper().replace(" ","")
+        cari = False
+        for item in mobil:
+            if item["platNo"] == plat and item["ketersediaan"] == True:
+                cari = True
+                mobil.remove(item)
+                print("Data terhapus.")
+                break
+            elif item["platNo"] == plat and item["ketersediaan"] == False:
+                cari = True
+                print("Mobil harus dikembalikan dulu, baru bisa dihapus.")
+                break
+        if not cari:
+            print("Data tidak ditemukan.")
+    except Exception as e:
+        print("Terjadi kesalahan saat meghapus data.")
 
-    if not cari:
-        print("Data tidak ditemukan.")
         
 
 def main():
