@@ -8,11 +8,11 @@ mobil = [
     {
         "platNo": "B1071PDM",
         "namaMobil": "Range Rover P615",
-        "deskripsi": "SV, PHEV, British Racing Green",
+        "deskripsi": "SV, PHEV, British Racing Green", #to be removed
         "kilometer": 12345.678,
-        "statusEnergi": 0.9,
-        "kondisi": "Mulus",
-        "ketersediaan": False,
+        "statusEnergi": 0.9, #to be removed
+        "kondisi": "Mulus", #to be removed
+        "ketersediaan": False, #ganti jadi ya atau tidak
         "namaPeminjam": "Fitra Eri",
         "kontak": "081234567891",
         "tanggalPeminjaman": datetime.date(2024, 6, 24),
@@ -22,11 +22,11 @@ mobil = [
     {
         "platNo": "B1010LKX",
         "namaMobil": "Mercedes Benz G63 AMG",
-        "deskripsi": "Bensin, Blue Metallic",
+        "deskripsi": "Bensin, Blue Metallic", #to be removed
         "kilometer": 901.23,
-        "statusEnergi": 0.75,
-        "kondisi": "Mulus",
-        "ketersediaan": True,
+        "statusEnergi": 0.75, #to be removed
+        "kondisi": "Mulus", #to be removed
+        "ketersediaan": True, #ganti jadi ya atau tidak
         "namaPeminjam": "",
         "kontak": "",
         "tanggalPeminjaman": "",
@@ -56,7 +56,6 @@ def lihatMobil(plat):
     except Exception as e:
         print("Terjadi kesalahan saat mencetak data.")
 
-
 def hapusMobil(plat):
     try:
         plat = plat.upper().replace(" ","")
@@ -76,7 +75,38 @@ def hapusMobil(plat):
     except Exception as e:
         print("Terjadi kesalahan saat meghapus data.")
 
-        
+def tambahMobil():
+    while True:
+        platNo = input("Masukkan plat nomor Mobil: ").upper().replace(" ","")
+        tersedia = True #kalau ditaruh di outside loop, maka dia looping forever.
+        for i in mobil:
+            if i["platNo"] == platNo:
+                tersedia = False
+                print("Plat nomor mobil sudah tersedia. Silahkan input ulang plat nomor mobilnya.")
+
+        if tersedia == True:
+            print("Data berhasil di-input.")
+            break
+    namaMobil = input("Masukkan nama mobil: ")
+    deskripsi = input("Masukkan deskripsi mobil")
+    kilometer = float(input("Masukkan kilometer mobil"))
+    statusEnergi = float(input("Masukkan status energi: "))
+    kondisi = input("Masukkan kondisi mobil: ")
+    mobilBaru = {
+        "platNo": platNo,
+        "namaMobil": namaMobil,
+        "deskripsi": deskripsi,
+        "kilometer": kilometer,
+        "statusEnergi": statusEnergi,
+        "kondisi": kondisi,
+        "ketersediaan": True,
+        "namaPeminjam": "",
+        "kontak": "",
+        "tanggalPeminjaman": "",
+        "tanggalKembali": "",
+        "alasan": ""
+    }
+    mobil.append(mobilBaru)
 
 def main():
     try:
@@ -109,7 +139,7 @@ def main():
 
 def lanjutkan():
     osName = platform.system()
-    input("Tekan Enter untuk continue...")
+    input("Tekan Enter untuk melanjutkan...")
     if osName == 'Windows':
         os.system("cls") #ganti parameternya jadi "clear" jika MacOS atau Linux
     else:
@@ -118,3 +148,4 @@ def lanjutkan():
 
 if __name__ == "__main__":
     main()
+# tambahMobil()
