@@ -1,6 +1,8 @@
 from tabulate import tabulate
 import datetime
 import os
+import platform
+
 
 mobil = [
     {
@@ -106,8 +108,12 @@ def main():
         print("Input tidak valid. Silahkan input ulang.")
 
 def lanjutkan():
+    osName = platform.system()
     input("Tekan Enter untuk continue...")
-    os.system("cls") #ganti parameternya jadi "clear" jika MacOS atau Linux
+    if osName == 'Windows':
+        os.system("cls") #ganti parameternya jadi "clear" jika MacOS atau Linux
+    else:
+        os.system("clear")
     main()
 
 if __name__ == "__main__":
