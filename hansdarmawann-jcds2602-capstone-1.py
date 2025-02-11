@@ -134,7 +134,6 @@ def update_car(license_plate):
                                 break
                     except ValueError:
                         print("Mileage must be a valid number!")
-                car["available"] = input("Is the car available? (Yes/No): ") or car["available"]
                 print("Car information updated.")
                 return
         print("Data not found.")
@@ -161,8 +160,10 @@ def main():
                 1. View Data
                 2. Add Car
                 3. Update Car
-                4. Delete Car
-                5. Exit
+                4. Borrow Car
+                5. Return Car
+                6. Delete Car
+                7. Exit
             """)
             menu = int(input("Enter your choice: "))
             if menu == 1:
@@ -180,7 +181,7 @@ def main():
                 license_plate = input("Enter license plate of the car to delete: ")
                 delete_car(license_plate)
                 clear_screen()
-            elif menu == 5:
+            elif menu == 7:
                 print("Thank you, see you next time!")
                 break
             else:
