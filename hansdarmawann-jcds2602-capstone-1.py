@@ -8,7 +8,7 @@ cars = [
     {
         "license_plate": "B1071PDM",
         "car_name": "Range Rover P615",
-        "kilometer": 12345.678,
+        "mileage": 12345.678,
         "available": "No",
         "borrower_name": "Fitra Eri",
         "contact": "081234567891",
@@ -19,7 +19,7 @@ cars = [
     {
         "license_plate": "B1010LKX",
         "car_name": "Mercedes Benz G63 AMG",
-        "kilometer": 901.23,
+        "mileage": 901.23,
         "available": "Yes",
         "borrower_name": "",
         "contact": "",
@@ -85,20 +85,20 @@ def add_car():
 
     while True:
         try:
-            kilometer = float(input("Enter car kilometer: "))
-            if kilometer < 0:
-                print("Kilometer cannot be negative!")
+            mileage = float(input("Enter car mileage: "))
+            if mileage < 0:
+                print("Mileage cannot be negative!")
                 continue
 
             print("Data successfully entered.")
             break
-        except ValueError:
-            print("Kilometer must be entered as a whole number or decimal!")
+        except Exception as e:
+            print(f"Mileage must be entered as a whole number or decimal: {e}")
 
     new_car = {
         "license_plate": license_plate,
         "car_name": car_name,
-        "kilometer": kilometer,
+        "mileage": mileage,
         "available": "Yes",
         "borrower_name": "",
         "contact": "",
@@ -138,8 +138,8 @@ def main():
             exit()
         else:
             print("Invalid choice. Please enter again.")
-    except ValueError:
-        print("Invalid input. Please enter again.")
+    except Exception as e:
+        print(f"Invalid input. Please enter again: {e}")
 
 def continue_program():
     os_name = platform.system()
