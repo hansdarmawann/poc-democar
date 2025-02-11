@@ -1,62 +1,63 @@
-# Capstone Project 1: Proof of Concept: Sistem Peminjaman Mobil Demo Car pada Dealer XYZ by Hans Darmawan (JCDS2602)
+# Capstone Project 1: Proof of Concept: Demo Car Lending System at XYZ Dealer by Hans Darmawan (JCDS2602)
 ## 1. Background
 
-Dealer XYZ merupakan salah satu dealer yang menjual berbagai macam brand mobil yang ada di Indonesia. Dealer tersebut melakukan investasi mobil demo sebagai tujuan untuk mempromosikan mobil yang dijual oleh mereka. Dalam situasi tertentu, terdapat opsi kepada pelanggan untuk meminjam mobil demo tersebut. Ketika melakukan peminjaman mobil demo, Dealer XYZ akan melakukan pencatatan peminjaman dengan form. Hal ini menjadi tantangan tersendiri, sebab :
+XYZ Dealer is one of the dealers that sells various car brands in Indonesia. The dealer invests in demo cars as a way to promote the cars they sell. In certain situations, there is an option for customers to borrow the demo car. When borrowing a demo car, XYZ Dealer will record the loan with a form. This is a challenge in itself, because:
 
-- **Operasional Mobil Demo Menjadi Kurang Efisien dan Efektif:** Proses peminjaman yang kurang efisien dan efektif ini dapat menyebabkan keterlambatan, kesalahan, dan ketidakpuasan pelanggan, baik pelanggan internal maupun eksternal.
-- **Keterbatasan dalam Pengelolaan Data:** Metode pencatatan secara manual seringkali menyebabkan sulitnya pelacakan ketersediaan mobil demo, yang dapat mengarah kepada misinformasi.
+- **Demo Car Operations Become Less Efficient and Effective:** This inefficient and effective borrowing process can cause delays, errors, and customer dissatisfaction, both internal and external customers.
+- **Limitations in Data Management:** The manual recording method often makes it difficult to track the availability of demo cars, which can lead to misinformation.
 
 ## 2. Gap Analysis
 
-Dari latar belakang yang telah ditulis sebelumnya, terdapat kesenjangan utama antara sistem saat ini dan kebutuhan pengguna yang belum dapat terpenuhi, antara lain:
+From the background that has been written previously, there are major gaps between the current system and user needs that have not been met, including:
 
-- **Pencatatan Secara Manual Menyebabkan Human Error:** Sistem manual rentan terhadap kesalahan manusia dan proses konfirmasi ketersediaan mobil demo yang lambat.
-- **Ketidakmampuan untuk Melacak Data Secara Real-Time:** Sistem yang tersedia memiliki kemungkinan untuk tidak menyediakan informasi ketersediaan mobil demo secara real-time. Akibatnya, hal tersebut akan menyulitkan pemantauan dan pengelolaan mobil demo secara efektif dan efisien.
+- **Manual Recording Causes Human Error:** The manual system is prone to human error and a slow confirmation process for the availability of demo cars.
+- **Inability to Track Data in Real-Time:** The available system has the potential to not provide real-time demo car availability information. As a result, this will make it difficult to monitor and manage demo cars effectively and efficiently.
 
 ## 3. Objectives
 
-- Capstone Project ini ditujukan untuk melakukan proof of concept sistem peminjaman mobil demo yang sederhana namun berfungsi untuk mengelola proses peminjaman mobil, termasuk fungsionalitas CRUD (Create, Read, Update, Delete). Implementasi ini akan dilakukan tanpa menggunakan operasi file atau database. 
+- This Capstone Project is intended to conduct a proof of concept for a simple demo car loan system that functions to manage the car loan process, including CRUD (Create, Read, Update, Delete) functionality. This implementation will be carried out without using file or database operations.
 
 ## 4. Project Scope (Scope of Work)
 
-- Sistem ini akan dibangun menggunakan bahasa pemrograman Python.
-- Terdapat 2 list of dictionary yang akan dibuat, yaitu data mobil dan data informasi peminjaman.
-- Semua data akan disimpan dalam memori.
-- Sistem ini akan mencakup:
-  - Fungsionalitas untuk menambahkan data peminjaman mobil baru.
-  - Fungsionalitas untuk melihat daftar peminjaman mobil.
-  - Fungsionalitas untuk memperbarui informasi peminjaman yang ada.
-  - Fungsionalitas untuk menghapus data peminjaman.
-- Sistem ini dirancang sebagai capstone project dan tidak akan mencakup evaluasi dan umpan balik formal.
+- This system will be built using the Python programming language.
+- There are 2 lists of dictionaries that will be created, namely car data and loan information data.
+
+- All data will be stored in memory.
+- The system will include:
+- Functionality to add new car loan data.
+- Functionality to view the list of car loans.
+- Functionality to update existing loan information.
+- Functionality to delete loan data.
+- This system is designed as a capstone project and will not include formal evaluation and feedback.
 
 ## 5. Requirements Analysis
 
 - **Functional Requirements:**
-  - Pengguna dapat menambahkan peminjaman baru dengan informasi seperti ID peminjaman, nama peminjam, tanggal peminjaman, dan detail mobil.
-  - Pengguna dapat melihat semua peminjaman yang ada.
-  - Pengguna dapat memperbarui informasi peminjaman yang ada.
-  - Pengguna dapat menghapus peminjaman dari sistem.
+- User can add new loans with information such as loan ID, borrower name, loan date, and car details.
+- User can view all existing loans.
+- User can update existing loan information.
+- User can delete loans from the system.
 
-## 6. System Design -> Menyesuaikan.
+## 6. System Design -> Customizing.
 
 - **Data Structure:**
-  - Data peminjaman akan disimpan dalam list atau dictionary Python. Setiap entri akan berisi informasi peminjaman. Contoh struktur data: `[{'id': 1, 'name': 'John Doe', 'date': '2024-03-08', 'car_details': 'Toyota Camry'}, ...]`
+- The loan data will be stored in a Python list or dictionary. Each entry will contain loan information. Example data structure: `[{'id': 1, 'name': 'John Doe', 'date': '2024-03-08', 'car_details': 'Toyota Camry'}, ...]`
 
 - **CRUD Functions:**
-  - `create_rental(id, name, date, car_details)`: Menambahkan peminjaman baru.
-  - `read_rentals()`: Menampilkan semua peminjaman.
-  - `update_rental(id, name=None, date=None, car_details=None)`: Memperbarui informasi peminjaman yang ada.
-  - `delete_rental(id)`: Menghapus peminjaman dari sistem.
+- `create_rental(id, name, date, car_details)`: Add a new rental.
+- `read_rentals()`: Display all rentals.
+- `update_rental(id, name=None, date=None, car_details=None)`: Update information about an existing rental.
+- `delete_rental(id)`: Remove a rental from the system.
 
 ## 7. Implementation
-- Terlampir pada file [...].py
+- Attached to the [...].py file
 
-## 8. Testing Methods -> Tentatif -> Opsional, fokus ke implementasi
-- Terlampir pada file Test Script.xlsx
-- **Unit Testing:** Setiap fungsi (create_rental, read_rentals, update_rental, delete_rental) akan diuji secara individu untuk memastikan fungsionalitasnya memenuhi spesifikasi. Pengujian akan memverifikasi apakah fungsi menghasilkan output yang diharapkan untuk berbagai input, termasuk kasus batas dan kasus kesalahan (misalnya, mencoba menghapus peminjaman yang tidak ada).
+## 8. Testing Methods -> Tentative -> Optional, focus on implementation
+- Attached to the Test Script.xlsx file
+- **Unit Testing:** Each function (create_rental, read_rentals, update_rental, delete_rental) will be tested individually to ensure its functionality meets the specifications. Testing will verify whether the function produces the expected output for a variety of inputs, including boundary cases and error cases (e.g., trying to delete a non-existent rental).
 
-- **Integration Testing:** Pengujian ini akan memverifikasi interaksi antara fungsi-fungsi. Misalnya, apakah data yang dibuat oleh fungsi create_rental dapat dibaca dengan benar oleh fungsi read_rentals.
+- **Integration Testing:** This test will verify the interaction between the functions. For example, whether the data created by the create_rental function can be read correctly by the read_rentals function.
 
-## 9. Conclusion -> Menyesuaikan
+## 9. Conclusion -> Customizing
 
-Proof of concept ini bertujuan untuk menunjukkan bahwa sistem peminjaman mobil demo dapat dikembangkan menggunakan pendekatan yang sederhana dan efektif. Dengan implementasi fitur CRUD dasar, sistem ini dapat memberikan solusi yang efisien untuk mengelola peminjaman mobil, serta menjadi dasar untuk pengembangan lebih lanjut di masa depan. Karena ini adalah proyek capstone, evaluasi formal dan umpan balik pengguna tidak termasuk dalam ruang lingkup proof of concept ini.
+This proof of concept aims to demonstrate that a demo car rental system can be developed using a simple and effective approach. With the implementation of basic CRUD features, this system can provide an efficient solution for managing car rentals, as well as being a basis for further development in the future. Since this is a capstone project, formal evaluation and user feedback are not within the scope of this proof of concept.
