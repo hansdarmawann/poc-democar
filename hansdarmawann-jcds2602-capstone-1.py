@@ -29,6 +29,45 @@ cars = [
     }
 ]
 
+def main():
+    try:
+        print("""
+        Welcome to XYZ Car Rental Demo System
+        Please Select a Menu Below:
+            1. View Data
+            2. Add Car
+            3. Update Car
+            4. Delete Car
+            5. Exit
+        """)
+        menu = int(input("Enter your input: "))
+        if menu == 1:
+            license_plate = input("Enter car license plate (leave blank to view all data): ")
+            view_cars(license_plate)
+            continue_program()
+        elif menu == 2:
+            add_car()
+            continue_program()
+        elif menu == 3:
+            update_car_menu()
+            continue_program()
+        elif menu == 4:
+            view_cars()
+            print()
+            license_plate = input("Enter car license plate: ")
+            delete_car(license_plate)
+            continue_program()
+        elif menu == 5:
+            print("Thank you, see you later!")
+            exit()
+        else:
+            print("Invalid choice. Please enter again.")
+    except Exception as e:
+        print(f"Invalid input. Please enter again.")
+        continue_program()
+
+
+
 def view_cars(license_plate=None):
     try:
         if license_plate:
@@ -44,21 +83,6 @@ def view_cars(license_plate=None):
         print(tabulate(data, headers="keys", maxcolwidths=[9 for _ in range(9)]))
     except Exception as e:
         print(f"An error occurred while printing data: {e}")
-
-def delete_car(license_plate):
-    try:
-        license_plate = license_plate.upper().replace(" ", "")
-        for car in cars:
-            if car["license_plate"] == license_plate:
-                if car["available"] == "Yes":
-                    cars.remove(car)
-                    print("Data deleted.")
-                else:
-                    print("The car must be returned first before it can be deleted.")
-                return
-        print("Data not found.")
-    except Exception as e:
-        print(f"An error occurred while deleting data: {e}")
 
 def add_car():
     while True:
@@ -108,42 +132,20 @@ def add_car():
     }
     cars.append(new_car)
 
-def main():
+def delete_car(license_plate=None):
     try:
-        print("""
-        Welcome to XYZ Car Rental Demo System
-        Please Select a Menu Below:
-            1. View Data
-            2. Add Car
-            3. Update Car
-            4. Delete Car
-            5. Exit
-        """)
-        menu = int(input("Enter your input: "))
-        if menu == 1:
-            license_plate = input("Enter car license plate (leave blank to view all data): ")
-            view_cars(license_plate)
-            continue_program()
-        elif menu == 2:
-            add_car()
-            continue_program()
-        elif menu ==3:
-            update_car_menu()
-            continue_program()
-        elif menu == 4:
-            view_cars()
-            print()
-            license_plate = input("Enter car license plate: ")
-            delete_car(license_plate)
-            continue_program()
-        elif menu == 5:
-            print("Thank you, see you later!")
-            exit()
-        else:
-            print("Invalid choice. Please enter again.")
+        license_plate = license_plate.upper().replace(" ", "")
+        for car in cars:
+            if car["license_plate"] == license_plate:
+                if car["available"] == "Yes":
+                    cars.remove(car)
+                    print("Data deleted.")
+                else:
+                    print("The car must be returned first before it can be deleted.")
+                return
+        print("Data not found.")
     except Exception as e:
-        print(f"Invalid input. Please enter again.")
-        continue_program()
+        print(f"An error occurred while deleting data: {e}")
 
 def update_car_menu():
     try:
