@@ -161,6 +161,7 @@ def update_car_menu():
         elif menu == 2:
             license_plate = input("Enter car license plate: ").upper().replace(" ", "")
         elif menu == 3:
+            view_cars()
             license_plate = input("Enter car license plate: ").upper().replace(" ", "")
             return_car(license_plate)
         elif menu == 4:
