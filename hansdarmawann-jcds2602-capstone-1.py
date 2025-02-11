@@ -116,7 +116,7 @@ def update_car(license_plate):
         license_plate = license_plate.upper().replace(" ", "")
         for car in cars:
             if car["license_plate"] == license_plate:
-                print("Current data:", car)
+                view_cars(license_plate)
                 car["car_name"] = input("Enter new car name (leave blank to keep current): ") or car["car_name"]
                 while True:
                     try:
