@@ -3,7 +3,6 @@ import datetime
 import os
 import platform
 
-# Data mobil
 cars = [
     {
         "license_plate": "B1071PDM",
@@ -29,46 +28,8 @@ cars = [
     }
 ]
 
-def main():
-    try:
-        print("""
-        Welcome to XYZ Car Rental Demo System
-        Please Select a Menu Below:
-            1. View Data
-            2. Add Car
-            3. Update Car
-            4. Delete Car
-            5. Exit
-        """)
-        menu = int(input("Enter your input: "))
-        if menu == 1:
-            license_plate = input("Enter car license plate (leave blank to view all data): ")
-            view_cars(license_plate)
-            continue_program()
-        elif menu == 2:
-            add_car()
-            continue_program()
-        elif menu == 3:
-            update_car_menu()
-            continue_program()
-        elif menu == 4:
-            view_cars()
-            print()
-            license_plate = input("Enter car license plate: ")
-            delete_car(license_plate)
-            continue_program()
-        elif menu == 5:
-            print("Thank you, see you later!")
-            exit()
-        else:
-            print("Invalid choice. Please enter again.")
-    except Exception as e:
-        print(f"Invalid input. Please enter again.")
-        continue_program()
-
-
-
 def view_cars(license_plate=None):
+    """View car details based on license plate or all cars."""
     try:
         if license_plate:
             license_plate = license_plate.upper().replace(" ", "")
@@ -80,22 +41,39 @@ def view_cars(license_plate=None):
         else:
             data = cars
 
-        print(tabulate(data, headers="keys", maxcolwidths=[9 for _ in range(9)]))
+        print(tabulate(data, headers="keys", maxcolwidths=[15 for _ in range(len(data[0]))]))
     except Exception as e:
-        print(f"An error occurred while printing data: {e}")
+        print(f"An error occurred while displaying data: {e}")
+
+def delete_car(license_plate):
+    """Delete a car from the list based on license plate."""
+    try:
+        license_plate = license_plate.upper().replace(" ", "")
+        for car in cars:
+            if car["license_plate"] == license_plate:
+                if car["available"] == "Yes":
+                    cars.remove(car)
+                    print("Data deleted.")
+                else:
+                    print("The car must be returned before it can be deleted.")
+                return
+        print("Data not found.")
+    except Exception as e:
+        print(f"An error occurred while deleting data: {e}")
 
 def add_car():
+    """Add a new car to the list."""
     while True:
         license_plate = input("Enter car license plate: ").upper().replace(" ", "")
         if not license_plate:
-            print("Car license plate cannot be empty!")
+            print("License plate cannot be empty!")
             continue
 
         if any(car["license_plate"] == license_plate for car in cars):
-            print("Car license plate already exists. Please enter a different license plate.")
+            print("License plate already exists. Please enter a different license plate.")
             continue
 
-        print("Car license plate successfully entered.")
+        print("License plate successfully added.")
         break
 
     while True:
@@ -104,7 +82,7 @@ def add_car():
             print("Car name cannot be empty!")
             continue
 
-        print("Car name successfully entered.")
+        print("Car name successfully added.")
         break
 
     while True:
@@ -114,10 +92,10 @@ def add_car():
                 print("Mileage cannot be negative!")
                 continue
 
-            print("Data successfully entered.")
+            print("Data successfully added.")
             break
-        except Exception as e:
-            print(f"Mileage must be entered as a whole number or decimal: {e}")
+        except ValueError:
+            print("Mileage must be a valid number!")
 
     new_car = {
         "license_plate": license_plate,
@@ -132,89 +110,83 @@ def add_car():
     }
     cars.append(new_car)
 
-def delete_car(license_plate=None):
+def update_car(license_plate):
+    """Update car information based on license plate."""
     try:
         license_plate = license_plate.upper().replace(" ", "")
         for car in cars:
             if car["license_plate"] == license_plate:
-                if car["available"] == "Yes":
-                    cars.remove(car)
-                    print("Data deleted.")
-                else:
-                    print("The car must be returned first before it can be deleted.")
+                print("Current data:", car)
+                car["car_name"] = input("Enter new car name (leave blank to keep current): ") or car["car_name"]
+                while True:
+                    try:
+                        mileage = input("Enter new mileage (leave blank to keep current): ")
+                        if mileage == "":
+                            car["mileage"] = car["mileage"]
+                            break
+                        else:
+                            mileage = float(mileage)
+                            if mileage < 0:
+                                print("Mileage cannot be negative!")
+                                continue
+                            else:
+                                car["mileage"] = round(mileage,2)
+                                break
+                    except ValueError:
+                        print("Mileage must be a valid number!")
+                car["available"] = input("Is the car available? (Yes/No): ") or car["available"]
+                print("Car information updated.")
                 return
         print("Data not found.")
-    except Exception as e:
-        print(f"An error occurred while deleting data: {e}")
 
-def update_car_menu():
-    try:
-        print("""
-        You are in the update car menu.
-        Please Select a Menu Below:
-            1. Update Car
-            2. Borrow Car
-            3. Return Car
-            4. Return To Main Menu
-        """)
-        menu = int(input("Enter your input: "))
-        if menu == 1:
-            license_plate = input("Enter car license plate: ").upper().replace(" ", "")
-        elif menu == 2:
-            license_plate = input("Enter car license plate: ").upper().replace(" ", "")
-        elif menu == 3:
-            view_cars()
-            license_plate = input("Enter car license plate: ").upper().replace(" ", "")
-            return_car(license_plate)
-        elif menu == 4:
-            print("Going back to main menu...")
-            main()
-        else:
-            print("Invalid choice. Please enter again.")
     except Exception as e:
-        print(f"Invalid input. Please enter again.")
-        input("Press Enter to continue...")
-        os_name = platform.system()
-        if os_name == 'Windows':
-            os.system("cls")
-        else:
-            os.system("clear")
-        update_car_menu()
+        print(f"An error occurred while updating data: {e}")
 
-def return_car(license_plate=None):
-    try:
-        license_plate = license_plate.upper().replace(" ", "")
-        for car in cars:
-            if car["license_plate"] == license_plate:
-                if car["available"] == "Yes":
-                    print("The car is available which has no borrower yet.")
-                else:
-                    print("The car is returned.")
-                    update_car = {
-                        "license_plate": car["license_plate"],
-                        "car_name": car["car_name"],
-                        "mileage": car["mileage"],
-                        "available": "Yes",
-                        "borrower_name": "",
-                        "contact": "",
-                        "borrow_date": "",
-                        "return_date": "",
-                        "reason": ""
-                    }
-                    car.update(update_car)
-                return
-        print("Data not found.")
-    except Exception as e:
-        print(f"An error occurred while deleting data: {e}")
-
-def continue_program():
+def clear_screen():
+    """Clear the console screen."""
     os_name = platform.system()
     input("Press Enter to continue...")
     if os_name == 'Windows':
         os.system("cls")
     else:
         os.system("clear")
-    main()
+
+def main():
+    """Main function to run the car rental system."""
+    while True:
+        try:
+            print("""
+            Welcome to the XYZ Car Rental System
+            Please choose an option below:
+                1. View Data
+                2. Add Car
+                3. Update Car
+                4. Delete Car
+                5. Exit
+            """)
+            menu = int(input("Enter your choice: "))
+            if menu == 1:
+                license_plate = input("Enter license plate (leave blank to view all data): ")
+                view_cars(license_plate)
+                clear_screen()
+            elif menu == 2:
+                add_car()
+                clear_screen()
+            elif menu == 3:
+                license_plate = input("Enter license plate of the car to update: ")
+                update_car(license_plate)
+                clear_screen()
+            elif menu == 4:
+                license_plate = input("Enter license plate of the car to delete: ")
+                delete_car(license_plate)
+                clear_screen()
+            elif menu == 5:
+                print("Thank you, see you next time!")
+                break
+            else:
+                print("Invalid choice. Please try again.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
 
 if __name__ == "__main__":
     main()
