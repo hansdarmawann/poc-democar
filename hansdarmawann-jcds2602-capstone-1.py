@@ -141,6 +141,37 @@ def update_car(license_plate):
     except Exception as e:
         print(f"An error occurred while updating data: {e}")
 
+def return_car(license_plate):
+    """Return the borrowed car information based on license plate."""
+    try:
+        license_plate = license_plate.upper().replace(" ", "")
+        for car in cars:
+            if car["license_plate"] == license_plate and car["available"] == "No":
+                view_cars(license_plate)
+                return_car = {
+                    "license_plate": car["license_plate"],
+                    "car_name": car["car_name"],
+                    "mileage": car["mileage"],
+                    "available": "Yes",
+                    "borrower_name": "",
+                    "contact": "",
+                    "borrow_date": "",
+                    "return_date": "",
+                    "reason": ""
+                }
+                car.update(return_car)
+                print("The car has been succesfully returned.")
+                return
+            elif car["license_plate"] == license_plate and car["available"] == "Yes":
+                view_cars(license_plate)
+                print("The car is available and has no borrower yet.")
+                return
+        print("Data not found.")
+
+    except Exception as e:
+        print(f"An error occurred while updating data: {e}")
+
+
 def clear_screen():
     """Clear the console screen."""
     os_name = platform.system()
@@ -177,7 +208,11 @@ def main():
                 license_plate = input("Enter license plate of the car to update: ")
                 update_car(license_plate)
                 clear_screen()
-            elif menu == 4:
+            elif menu == 5:
+                license_plate = input("Enter license plate of the car to return: ")
+                return_car(license_plate)
+                clear_screen()
+            elif menu == 6:
                 license_plate = input("Enter license plate of the car to delete: ")
                 delete_car(license_plate)
                 clear_screen()
