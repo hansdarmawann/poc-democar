@@ -9,7 +9,7 @@ cars = [
         "license_plate": "B1071PDM",
         "car_name": "Range Rover P615",
         "kilometer": 12345.678,
-        "available": "Yes",
+        "available": "No",
         "borrower_name": "Fitra Eri",
         "contact": "081234567891",
         "borrow_date": datetime.date(2024, 6, 24),
@@ -20,7 +20,7 @@ cars = [
         "license_plate": "B1010LKX",
         "car_name": "Mercedes Benz G63 AMG",
         "kilometer": 901.23,
-        "available": "No",
+        "available": "Yes",
         "borrower_name": "",
         "contact": "",
         "borrow_date": "",
@@ -33,7 +33,7 @@ def view_cars(license_plate=None):
     try:
         if license_plate:
             license_plate = license_plate.upper().replace(" ", "")
-            filtered_cars = [car for car in cars if car["license_plate"] == license_plate]  # Menggunakan list comprehension
+            filtered_cars = [car for car in cars if car["license_plate"] == license_plate]
             if not filtered_cars:
                 print("Data not found.")
                 return
