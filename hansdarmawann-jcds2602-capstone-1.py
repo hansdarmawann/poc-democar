@@ -3,163 +3,149 @@ import datetime
 import os
 import platform
 
-
-mobil = [
+# Data mobil
+cars = [
     {
-        "platNo": "B1071PDM",
-        "namaMobil": "Range Rover P615",
+        "license_plate": "B1071PDM",
+        "car_name": "Range Rover P615",
         "kilometer": 12345.678,
-        "tersedia": "Ya",
-        "namaPeminjam": "Fitra Eri",
-        "kontak": "081234567891",
-        "tanggalPeminjaman": datetime.date(2024, 6, 24),
-        "tanggalKembali": datetime.date(2024, 6, 30),
-        "alasan": "Keperluan Review"
+        "available": "Yes",
+        "borrower_name": "Fitra Eri",
+        "contact": "081234567891",
+        "borrow_date": datetime.date(2024, 6, 24),
+        "return_date": datetime.date(2024, 6, 30),
+        "reason": "Review Purpose"
     },
     {
-        "platNo": "B1010LKX",
-        "namaMobil": "Mercedes Benz G63 AMG",
+        "license_plate": "B1010LKX",
+        "car_name": "Mercedes Benz G63 AMG",
         "kilometer": 901.23,
-        "tersedia": "Tidak",
-        "namaPeminjam": "",
-        "kontak": "",
-        "tanggalPeminjaman": "",
-        "tanggalKembali": "",
-        "alasan": ""
+        "available": "No",
+        "borrower_name": "",
+        "contact": "",
+        "borrow_date": "",
+        "return_date": "",
+        "reason": ""
     }
 ]
 
-def lihatMobil(plat):
+def view_cars(license_plate=None):
     try:
-        plat = plat.upper().replace(" ","")
-        cari = False
-        if plat == "":
-            data = mobil
-        else:
-            for item in mobil:
-                if item["platNo"] == plat:
-                    cari = True
-            if cari:
-                data = [row for row in mobil if row["platNo"] == plat]
-            else:
-                print("Data tidak ditemukan.")
+        if license_plate:
+            license_plate = license_plate.upper().replace(" ", "")
+            filtered_cars = [car for car in cars if car["license_plate"] == license_plate]  # Menggunakan list comprehension
+            if not filtered_cars:
+                print("Data not found.")
                 return
-        print(tabulate(data, headers="keys", maxcolwidths=[9 for i in range(9)]))
-    except Exception as e:
-        print("Terjadi kesalahan saat mencetak data.")
+            data = filtered_cars
+        else:
+            data = cars
 
-def hapusMobil(plat):
+        print(tabulate(data, headers="keys", maxcolwidths=[9 for _ in range(9)]))
+    except Exception as e:
+        print(f"An error occurred while printing data: {e}")
+
+def delete_car(license_plate):
     try:
-        plat = plat.upper().replace(" ","")
-        cari = False
-        for item in mobil:
-            if item["platNo"] == plat and item["flagan"] == True:
-                cari = True
-                mobil.remove(item)
-                print("Data terhapus.")
-                break
-            elif item["platNo"] == plat and item["flagan"] == False:
-                cari = True
-                print("Mobil harus dikembalikan dulu, baru bisa dihapus.")
-                break
-        if not cari:
-            print("Data tidak ditemukan.")
+        license_plate = license_plate.upper().replace(" ", "")
+        for car in cars:
+            if car["license_plate"] == license_plate:
+                if car["available"] == "Yes":
+                    cars.remove(car)
+                    print("Data deleted.")
+                else:
+                    print("The car must be returned first before it can be deleted.")
+                return
+        print("Data not found.")
     except Exception as e:
-        print("Terjadi kesalahan saat meghapus data.")
+        print(f"An error occurred while deleting data: {e}")
 
-def tambahMobil():
+def add_car():
     while True:
-        platNo = input("Masukkan plat nomor Mobil: ").upper().replace(" ","")
-        flag = True #kalau ditaruh di outside loop, maka dia looping forever.
-        if platNo == "":
-            flag = False
-            print("Plat nomor mobil tidak boleh kosong !")
+        license_plate = input("Enter car license plate: ").upper().replace(" ", "")
+        if not license_plate:
+            print("Car license plate cannot be empty!")
+            continue
 
-        for item in mobil:
-            if item["platNo"] == platNo:
-                flag = False
-                print("Plat nomor mobil sudah tersedia. Silahkan input ulang plat nomor mobilnya.")
+        if any(car["license_plate"] == license_plate for car in cars):
+            print("Car license plate already exists. Please enter a different license plate.")
+            continue
 
-        if flag == True:
-            print("Plat nomor berhasil di-input.")
-            break
-    
+        print("Car license plate successfully entered.")
+        break
+
     while True:
-        namaMobil = input("Masukkan nama mobil: ")
-        flag = True
-        if namaMobil == "":
-            flag = False
-            print("Nama mobil tidak boleh kosong !")
-        
-        if flag == True:
-            print("Nama mobil berhasil di-input")
-            break
-    
+        car_name = input("Enter car name: ")
+        if not car_name:
+            print("Car name cannot be empty!")
+            continue
+
+        print("Car name successfully entered.")
+        break
+
     while True:
         try:
-            kilometer = float(input("Masukkan kilometer mobil: "))
-            flag = True
-            if kilometer == "":
-                flag = False
-                print("Kilometer harus diisi !")
+            kilometer = float(input("Enter car kilometer: "))
+            if kilometer < 0:
+                print("Kilometer cannot be negative!")
+                continue
 
-            if flag == True:
-                kilometer = float(kilometer)
-                print("Data berhasil di-input")
-                break
-        except Exception as e:
-            print("Kilometer harus diisi dengan angka bulat atau angka desimal !")
+            print("Data successfully entered.")
+            break
+        except ValueError:
+            print("Kilometer must be entered as a whole number or decimal!")
 
-    mobilBaru = {
-        "platNo": platNo,
-        "namaMobil": namaMobil,
+    new_car = {
+        "license_plate": license_plate,
+        "car_name": car_name,
         "kilometer": kilometer,
-        "tersedia": "Ya",
-        "namaPeminjam": "",
-        "kontak": "",
-        "tanggalPeminjaman": "",
-        "tanggalKembali": "",
-        "alasan": ""
+        "available": "Yes",
+        "borrower_name": "",
+        "contact": "",
+        "borrow_date": "",
+        "return_date": "",
+        "reason": ""
     }
-    mobil.append(mobilBaru)
+    cars.append(new_car)
 
 def main():
     try:
         print("""
-        Selamat Datang di Sistem Peminjaman Mobil Demo XYZ
-        Silahkan Pilih Menu yang flag di Bawah  :
-            1. Lihat Data
-            2. Tambah Mobil
-            3. Update Mobil
-            4. Hapus Mobil
-            5. Keluar
+        Welcome to XYZ Car Rental Demo System
+        Please Select a Menu Below:
+            1. View Data
+            2. Add Car
+            3. Update Car
+            4. Delete Car
+            5. Exit
         """)
-        menu = int(input("Masukkan input anda: "))
+        menu = int(input("Enter your input: "))
         if menu == 1:
-            plat = input("Masukkan plat nomor anda (kosongkan jika ingin lihat semua data): ")
-            lihatMobil(plat)
-            lanjutkan()
-        elif menu ==2:
-            tambahMobil()
-            lanjutkan()
+            license_plate = input("Enter car license plate (leave blank to view all data): ")
+            view_cars(license_plate)
+            continue_program()
+        elif menu == 2:
+            add_car()
+            continue_program()
         elif menu == 4:
-            lihatMobil("")
+            view_cars()
             print()
-            plat = input("Masukkan plat nomor anda: ")
-            hapusMobil(plat)
-            lanjutkan()
+            license_plate = input("Enter car license plate: ")
+            delete_car(license_plate)
+            continue_program()
         elif menu == 5:
-            print("Terima kasih, sampai jumpa !")
+            print("Thank you, see you later!")
             exit()
+        else:
+            print("Invalid choice. Please enter again.")
+    except ValueError:
+        print("Invalid input. Please enter again.")
 
-    except Exception as e:
-        print("Input tidak valid. Silahkan input ulang.")
-
-def lanjutkan():
-    osName = platform.system()
-    input("Tekan Enter untuk melanjutkan...")
-    if osName == 'Windows':
-        os.system("cls") #ganti parameternya jadi "clear" jika MacOS atau Linux
+def continue_program():
+    os_name = platform.system()
+    input("Press Enter to continue...")
+    if os_name == 'Windows':
+        os.system("cls")
     else:
         os.system("clear")
     main()
