@@ -127,6 +127,9 @@ def main():
         elif menu == 2:
             add_car()
             continue_program()
+        elif menu ==3:
+            update_car_menu()
+            continue_program()
         elif menu == 4:
             view_cars()
             print()
@@ -139,7 +142,67 @@ def main():
         else:
             print("Invalid choice. Please enter again.")
     except Exception as e:
-        print(f"Invalid input. Please enter again: {e}")
+        print(f"Invalid input. Please enter again.")
+        continue_program()
+
+def update_car_menu():
+    try:
+        print("""
+        You are in the update car menu.
+        Please Select a Menu Below:
+            1. Update Car
+            2. Borrow Car
+            3. Return Car
+            4. Return To Main Menu
+        """)
+        menu = int(input("Enter your input: "))
+        if menu == 1:
+            license_plate = input("Enter car license plate: ").upper().replace(" ", "")
+        elif menu == 2:
+            license_plate = input("Enter car license plate: ").upper().replace(" ", "")
+        elif menu == 3:
+            license_plate = input("Enter car license plate: ").upper().replace(" ", "")
+            return_car(license_plate)
+        elif menu == 4:
+            print("Going back to main menu...")
+            main()
+        else:
+            print("Invalid choice. Please enter again.")
+    except Exception as e:
+        print(f"Invalid input. Please enter again.")
+        input("Press Enter to continue...")
+        os_name = platform.system()
+        if os_name == 'Windows':
+            os.system("cls")
+        else:
+            os.system("clear")
+        update_car_menu()
+
+def return_car(license_plate=None):
+    try:
+        license_plate = license_plate.upper().replace(" ", "")
+        for car in cars:
+            if car["license_plate"] == license_plate:
+                if car["available"] == "Yes":
+                    print("The car is available which has no borrower yet.")
+                else:
+                    print("The car is returned.")
+                    update_car = {
+                        "license_plate": car["license_plate"],
+                        "car_name": car["car_name"],
+                        "mileage": car["mileage"],
+                        "available": "Yes",
+                        "borrower_name": "",
+                        "contact": "",
+                        "borrow_date": "",
+                        "return_date": "",
+                        "reason": ""
+                    }
+                    car.update(update_car)
+                return
+        print("Data not found.")
+    except Exception as e:
+        print(f"An error occurred while deleting data: {e}")
 
 def continue_program():
     os_name = platform.system()
