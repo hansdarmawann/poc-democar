@@ -106,6 +106,8 @@ def add_car():
     }
     cars.append(new_car)
     print("Car added successfully.")
+    view_cars(license_plate)
+
 
 def update_car(license_plate):
     """Update car information based on license plate."""
@@ -129,6 +131,7 @@ def update_car(license_plate):
                 except ValueError:
                     print("Mileage must be a valid number!")
             print("Car information updated.")
+            view_cars(license_plate)
             return
     print("Data not found.")
 
@@ -146,6 +149,7 @@ def return_car(license_plate):
                 car[RETURN_DATE_KEY] = ""
                 car[REASON_KEY] = ""
                 print("The car has been successfully returned.")
+                view_cars(license_plate)
             else:
                 print("The car is available and has no borrower yet.")
             return
@@ -185,6 +189,7 @@ def borrow_car(license_plate):
                 car[REASON_KEY] = input("Enter reason for borrowing: ")
                 car[AVAILABLE_KEY] = "No"
                 print("Car has been successfully borrowed.")
+                view_cars(license_plate)
             else:
                 print("The car is currently unavailable.")
             return
@@ -220,21 +225,26 @@ def main():
                 view_cars(license_plate)
                 clear_screen()
             elif menu == 2:
+                view_cars()
                 add_car()
                 clear_screen()
             elif menu == 3:
+                view_cars()
                 license_plate = input("Enter license plate of the car to update: ")
                 update_car(license_plate)
                 clear_screen()
             elif menu == 4:
+                view_cars()
                 license_plate = input("Enter license plate of the car to borrow: ")
                 borrow_car(license_plate)
                 clear_screen()
             elif menu == 5:
+                view_cars()
                 license_plate = input("Enter license plate of the car to return: ")
                 return_car(license_plate)
                 clear_screen()
             elif menu == 6:
+                view_cars()
                 license_plate = input("Enter license plate of the car to delete: ")
                 delete_car(license_plate)
                 clear_screen()
