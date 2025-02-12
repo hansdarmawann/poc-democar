@@ -130,7 +130,7 @@ def update_car(license_plate):
                                 print("Mileage cannot be negative!")
                                 continue
                             else:
-                                car["mileage"] = round(mileage,2)
+                                car["mileage"] = round(mileage, 2)
                                 break
                     except ValueError:
                         print("Mileage must be a valid number!")
@@ -160,7 +160,7 @@ def return_car(license_plate):
                     "reason": ""
                 }
                 car.update(return_car)
-                print("The car has been succesfully returned.")
+                print("The car has been successfully returned.")
                 return
             elif car["license_plate"] == license_plate and car["available"] == "Yes":
                 view_cars(license_plate)
@@ -171,6 +171,42 @@ def return_car(license_plate):
     except Exception as e:
         print(f"An error occurred while updating data: {e}")
 
+def borrow_car(license_plate):
+    """Borrow a car if it is available."""
+    try:
+        license_plate = license_plate.upper().replace(" ", "")
+        for car in cars:
+            if car["license_plate"] == license_plate:
+                if car["available"] == "Yes":
+                    car["borrower_name"] = input("Enter borrower name: ")
+                    car["contact"] = input("Enter contact number: ")
+                    while True:
+                        try:
+                            borrow_date_str = input("Enter borrow date (YYYY-MM-DD): ")
+                            car["borrow_date"] = datetime.datetime.strptime(borrow_date_str, "%Y-%m-%d").date()
+                            break
+                        except ValueError:
+                            print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+                    while True:
+                        try:
+                            return_date_str = input("Enter return date (YYYY-MM-DD): ")
+                            car["return_date"] = datetime.datetime.strptime(return_date_str, "%Y-%m-%d").date()
+                            if car["return_date"] < car["borrow_date"]:
+                                print("Return date must be after borrow date. Please enter a valid return date.")
+                            else:
+                                break
+                        except ValueError:
+                            print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+                    car["reason"] = input("Enter reason for borrowing: ")
+                    car["available"] = "No"
+                    print("Car has been successfully borrowed.")
+                    return
+                else:
+                    print("The car is currently unavailable.")
+                    return
+        print("Data not found.")
+    except Exception as e:
+        print(f"An error occurred while borrowing the car: {e}")
 
 def clear_screen():
     """Clear the console screen."""
@@ -207,6 +243,10 @@ def main():
             elif menu == 3:
                 license_plate = input("Enter license plate of the car to update: ")
                 update_car(license_plate)
+                clear_screen()
+            elif menu == 4:
+                license_plate = input("Enter license plate of the car to borrow: ")
+                borrow_car(license_plate)
                 clear_screen()
             elif menu == 5:
                 license_plate = input("Enter license plate of the car to return: ")
