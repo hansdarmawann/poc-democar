@@ -3,87 +3,85 @@ import datetime
 import os
 import platform
 
+# Constants
+LICENSE_PLATE_KEY = "license_plate"
+CAR_NAME_KEY = "car_name"
+MILEAGE_KEY = "mileage"
+AVAILABLE_KEY = "available"
+BORROWER_NAME_KEY = "borrower_name"
+CONTACT_KEY = "contact"
+BORROW_DATE_KEY = "borrow_date"
+RETURN_DATE_KEY = "return_date"
+REASON_KEY = "reason"
+
+# Initial car data
 cars = [
     {
-        "license_plate": "B1071PDM",
-        "car_name": "Range Rover P615",
-        "mileage": 12345.678,
-        "available": "No",
-        "borrower_name": "Fitra Eri",
-        "contact": "081234567891",
-        "borrow_date": datetime.date(2024, 6, 24),
-        "return_date": datetime.date(2024, 6, 30),
-        "reason": "Review Purpose"
+        LICENSE_PLATE_KEY: "B1071PDM",
+        CAR_NAME_KEY: "Range Rover P615",
+        MILEAGE_KEY: 12345.678,
+        AVAILABLE_KEY: "No",
+        BORROWER_NAME_KEY: "Fitra Eri",
+        CONTACT_KEY: "081234567891",
+        BORROW_DATE_KEY: datetime.date(2024, 6, 24),
+        RETURN_DATE_KEY: datetime.date(2024, 6, 30),
+        REASON_KEY: "Review Purpose"
     },
     {
-        "license_plate": "B1010LKX",
-        "car_name": "Mercedes Benz G63 AMG",
-        "mileage": 901.23,
-        "available": "Yes",
-        "borrower_name": "",
-        "contact": "",
-        "borrow_date": "",
-        "return_date": "",
-        "reason": ""
+        LICENSE_PLATE_KEY: "B1010LKX",
+        CAR_NAME_KEY: "Mercedes Benz G63 AMG",
+        MILEAGE_KEY: 901.23,
+        AVAILABLE_KEY: "Yes",
+        BORROWER_NAME_KEY: "",
+        CONTACT_KEY: "",
+        BORROW_DATE_KEY: "",
+        RETURN_DATE_KEY: "",
+        REASON_KEY: ""
     }
 ]
 
 def view_cars(license_plate=None):
     """View car details based on license plate or all cars."""
-    try:
-        if license_plate:
-            license_plate = license_plate.upper().replace(" ", "")
-            filtered_cars = [car for car in cars if car["license_plate"] == license_plate]
-            if not filtered_cars:
-                print("Data not found.")
-                return
-            data = filtered_cars
-        else:
-            data = cars
+    if license_plate:
+        license_plate = license_plate.upper().replace(" ", "")
+        filtered_cars = [car for car in cars if car[LICENSE_PLATE_KEY] == license_plate]
+        if not filtered_cars:
+            print("Data not found.")
+            return
+        data = filtered_cars
+    else:
+        data = cars
 
-        print(tabulate(data, headers="keys", maxcolwidths=[15 for _ in range(len(data[0]))]))
-    except Exception as e:
-        print(f"An error occurred while displaying data: {e}")
+    print(tabulate(data, headers="keys", maxcolwidths=[15] * len(data[0])))
 
 def delete_car(license_plate):
     """Delete a car from the list based on license plate."""
-    try:
-        license_plate = license_plate.upper().replace(" ", "")
-        for car in cars:
-            if car["license_plate"] == license_plate:
-                if car["available"] == "Yes":
-                    cars.remove(car)
-                    print("Data deleted.")
-                else:
-                    print("The car must be returned before it can be deleted.")
-                return
-        print("Data not found.")
-    except Exception as e:
-        print(f"An error occurred while deleting data: {e}")
+    license_plate = license_plate.upper().replace(" ", "")
+    for car in cars:
+        if car[LICENSE_PLATE_KEY] == license_plate:
+            if car[AVAILABLE_KEY] == "Yes":
+                cars.remove(car)
+                print("Data deleted.")
+            else:
+                print("The car must be returned before it can be deleted.")
+            return
+    print("Data not found.")
 
 def add_car():
     """Add a new car to the list."""
-    while True:
-        license_plate = input("Enter car license plate: ").upper().replace(" ", "")
-        if not license_plate:
-            print("License plate cannot be empty!")
-            continue
+    license_plate = input("Enter car license plate: ").upper().replace(" ", "")
+    if not license_plate:
+        print("License plate cannot be empty!")
+        return
 
-        if any(car["license_plate"] == license_plate for car in cars):
-            print("License plate already exists. Please enter a different license plate.")
-            continue
+    if any(car[LICENSE_PLATE_KEY] == license_plate for car in cars):
+        print("License plate already exists. Please enter a different license plate.")
+        return
 
-        print("License plate successfully added.")
-        break
-
-    while True:
-        car_name = input("Enter car name: ")
-        if not car_name:
-            print("Car name cannot be empty!")
-            continue
-
-        print("Car name successfully added.")
-        break
+    car_name = input("Enter car name: ")
+    if not car_name:
+        print("Car name cannot be empty!")
+        return
 
     while True:
         try:
@@ -91,122 +89,106 @@ def add_car():
             if mileage < 0:
                 print("Mileage cannot be negative!")
                 continue
-
-            print("Data successfully added.")
             break
         except ValueError:
             print("Mileage must be a valid number!")
 
     new_car = {
-        "license_plate": license_plate,
-        "car_name": car_name,
-        "mileage": mileage,
-        "available": "Yes",
-        "borrower_name": "",
-        "contact": "",
-        "borrow_date": "",
-        "return_date": "",
-        "reason": ""
+        LICENSE_PLATE_KEY: license_plate,
+        CAR_NAME_KEY: car_name,
+        MILEAGE_KEY: mileage,
+        AVAILABLE_KEY: "Yes",
+        BORROWER_NAME_KEY: "",
+        CONTACT_KEY: "",
+        BORROW_DATE_KEY: "",
+        RETURN_DATE_KEY: "",
+        REASON_KEY: ""
     }
     cars.append(new_car)
+    print("Car added successfully.")
 
 def update_car(license_plate):
     """Update car information based on license plate."""
-    try:
-        license_plate = license_plate.upper().replace(" ", "")
-        for car in cars:
-            if car["license_plate"] == license_plate:
-                view_cars(license_plate)
-                car["car_name"] = input("Enter new car name (leave blank to keep current): ") or car["car_name"]
-                while True:
-                    try:
-                        mileage = input("Enter new mileage (leave blank to keep current): ")
-                        if mileage == "":
-                            car["mileage"] = car["mileage"]
-                            break
-                        else:
-                            mileage = float(mileage)
-                            if mileage < 0:
-                                print("Mileage cannot be negative!")
-                                continue
-                            else:
-                                car["mileage"] = round(mileage, 2)
-                                break
-                    except ValueError:
-                        print("Mileage must be a valid number!")
-                print("Car information updated.")
-                return
-        print("Data not found.")
-
-    except Exception as e:
-        print(f"An error occurred while updating data: {e}")
+    license_plate = license_plate.upper().replace(" ", "")
+    for car in cars:
+        if car[LICENSE_PLATE_KEY] == license_plate:
+            view_cars(license_plate)
+            car[LICENSE_PLATE_KEY] = input("Enter new car name (leave blank to keep current): ") or car[LICENSE_PLATE_KEY]
+            car[CAR_NAME_KEY] = input("Enter new car name (leave blank to keep current): ") or car[CAR_NAME_KEY]
+            while True:
+                try:
+                    mileage_input = input("Enter new mileage (leave blank to keep current): ")
+                    if mileage_input == "":
+                        break
+                    mileage = float(mileage_input)
+                    if mileage < 0:
+                        print("Mileage cannot be negative!")
+                        continue
+                    car[MILEAGE_KEY] = round(mileage, 2)
+                    break
+                except ValueError:
+                    print("Mileage must be a valid number!")
+            print("Car information updated.")
+            return
+    print("Data not found.")
 
 def return_car(license_plate):
     """Return the borrowed car information based on license plate."""
-    try:
-        license_plate = license_plate.upper().replace(" ", "")
-        for car in cars:
-            if car["license_plate"] == license_plate and car["available"] == "No":
+    license_plate = license_plate.upper().replace(" ", "")
+    for car in cars:
+        if car[LICENSE_PLATE_KEY] == license_plate:
+            if car[AVAILABLE_KEY] == "No":
                 view_cars(license_plate)
-                return_car = {
-                    "license_plate": car["license_plate"],
-                    "car_name": car["car_name"],
-                    "mileage": car["mileage"],
-                    "available": "Yes",
-                    "borrower_name": "",
-                    "contact": "",
-                    "borrow_date": "",
-                    "return_date": "",
-                    "reason": ""
-                }
-                car.update(return_car)
+                car[AVAILABLE_KEY] = "Yes"
+                car[BORROWER_NAME_KEY] = ""
+                car[CONTACT_KEY] = ""
+                car[BORROW_DATE_KEY] = ""
+                car[RETURN_DATE_KEY] = ""
+                car[REASON_KEY] = ""
                 print("The car has been successfully returned.")
-                return
-            elif car["license_plate"] == license_plate and car["available"] == "Yes":
-                view_cars(license_plate)
+            else:
                 print("The car is available and has no borrower yet.")
-                return
-        print("Data not found.")
-
-    except Exception as e:
-        print(f"An error occurred while updating data: {e}")
+            return
+    print("Data not found.")
 
 def borrow_car(license_plate):
     """Borrow a car if it is available."""
-    try:
-        license_plate = license_plate.upper().replace(" ", "")
-        for car in cars:
-            if car["license_plate"] == license_plate:
-                if car["available"] == "Yes":
-                    car["borrower_name"] = input("Enter borrower name: ")
-                    car["contact"] = input("Enter contact number: ")
-                    while True:
-                        try:
-                            borrow_date_str = input("Enter borrow date (YYYY-MM-DD): ")
-                            car["borrow_date"] = datetime.datetime.strptime(borrow_date_str, "%Y-%m-%d").date()
+    license_plate = license_plate.upper().replace(" ", "")
+    for car in cars:
+        if car[LICENSE_PLATE_KEY] == license_plate:
+            if car[AVAILABLE_KEY] == "Yes":
+                car[BORROWER_NAME_KEY] = input("Enter borrower name: ")
+                while True:
+                    car[CONTACT_KEY] = input("Enter contact number: ")
+                    if car[CONTACT_KEY].isdigit():
+                        break
+                    else:
+                        print("Invalid input format. Please input the proper contact number.")
+                while True:
+                    try:
+                        borrow_date_str = input("Enter borrow date (YYYY-MM-DD): ")
+                        car[BORROW_DATE_KEY] = datetime.datetime.strptime(borrow_date_str, "%Y-%m-%d").date()
+                        break
+                    except ValueError:
+                        print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+                while True:
+                    try:
+                        return_date_str = input("Enter return date (YYYY-MM-DD): ")
+                        return_date = datetime.datetime.strptime(return_date_str, "%Y-%m-%d").date()
+                        if return_date < car[BORROW_DATE_KEY]:
+                            print("Return date must be after borrow date. Please enter a valid return date.")
+                        else:
+                            car[RETURN_DATE_KEY] = return_date
                             break
-                        except ValueError:
-                            print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
-                    while True:
-                        try:
-                            return_date_str = input("Enter return date (YYYY-MM-DD): ")
-                            car["return_date"] = datetime.datetime.strptime(return_date_str, "%Y-%m-%d").date()
-                            if car["return_date"] < car["borrow_date"]:
-                                print("Return date must be after borrow date. Please enter a valid return date.")
-                            else:
-                                break
-                        except ValueError:
-                            print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
-                    car["reason"] = input("Enter reason for borrowing: ")
-                    car["available"] = "No"
-                    print("Car has been successfully borrowed.")
-                    return
-                else:
-                    print("The car is currently unavailable.")
-                    return
-        print("Data not found.")
-    except Exception as e:
-        print(f"An error occurred while borrowing the car: {e}")
+                    except ValueError:
+                        print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+                car[REASON_KEY] = input("Enter reason for borrowing: ")
+                car[AVAILABLE_KEY] = "No"
+                print("Car has been successfully borrowed.")
+            else:
+                print("The car is currently unavailable.")
+            return
+    print("Data not found.")
 
 def clear_screen():
     """Clear the console screen."""
@@ -220,18 +202,18 @@ def clear_screen():
 def main():
     """Main function to run the car rental system."""
     while True:
+        print("""
+        Welcome to the XYZ Car Rental System
+        Please choose an option below:
+            1. View Data
+            2. Add Car
+            3. Update Car
+            4. Borrow Car
+            5. Return Car
+            6. Delete Car
+            7. Exit
+        """)
         try:
-            print("""
-            Welcome to the XYZ Car Rental System
-            Please choose an option below:
-                1. View Data
-                2. Add Car
-                3. Update Car
-                4. Borrow Car
-                5. Return Car
-                6. Delete Car
-                7. Exit
-            """)
             menu = int(input("Enter your choice: "))
             if menu == 1:
                 license_plate = input("Enter license plate (leave blank to view all data): ")
@@ -261,8 +243,10 @@ def main():
                 break
             else:
                 print("Invalid choice. Please try again.")
+                clear_screen()
         except ValueError:
             print("Invalid input. Please enter a number.")
+            clear_screen()
 
 if __name__ == "__main__":
     main()
