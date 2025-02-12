@@ -41,7 +41,7 @@ The system utilizes a list of dictionaries to represent the car data. Each dicti
 - **`license_plate`**: (String) The unique identifier for the car.
 - **`car_name`**: (String) The name of the car model.
 - **`mileage`**: (Float) The mileage of the car.
-- **`available`**: (String) Indicates whether the car is available for borrowing (e.g., "Yes" or "No").
+- **`available`**: (String) Indicates whether the car is available for borrowing ("Yes" or "No").
 - **`borrower_name`**: (String) The name of the person borrowing the car.
 - **`contact`**: (String) The contact number of the borrower.
 - **`borrow_date`**: (Date) The date when the car was borrowed.
@@ -50,14 +50,21 @@ The system utilizes a list of dictionaries to represent the car data. Each dicti
 
 ### CRUD Functions
 
-The system includes the following core functions to manage the demo car lending process:
+The system implements the following core functions to manage the demo car lending process:
 
 - **`view_cars(license_plate=None)`**: Displays car details based on the license plate or all cars if no plate is provided.
-- **`add_car()`**: Adds a new car to the system after validating input.
-- **`update_car(license_plate)`**: Updates the details of an existing car based on the license plate.
-- **`borrow_car(license_plate)`**: Allows a user to borrow a car if it is available, collecting necessary borrower information.
-- **`return_car(license_plate)`**: Processes the return of a borrowed car, updating its status to available.
+- **`add_car()`**: Allows users to add a new car to the system with validation for unique license plates and valid mileage.
+- **`update_car(license_plate)`**: Updates existing car details based on the provided license plate.
+- **`borrow_car(license_plate)`**: Facilitates the borrowing of a car if it is available, collecting necessary borrower information.
+- **`return_car(license_plate)`**: Processes the return of a borrowed car, updating its availability status.
 - **`delete_car(license_plate)`**: Deletes a car from the system if it is available.
+
+### Libraries Used
+
+- **`tabulate`**: This library is used to format and display the car data in a readable table format, enhancing the user interface for viewing car details.
+- **`datetime`**: This library is utilized for handling date and time operations, allowing the system to manage borrowing and return dates effectively.
+- **`os`**: This library is used to clear the console screen, improving user experience by providing a cleaner interface.
+- **`platform`**: This library helps determine the operating system, allowing the system to use the appropriate command for clearing the screen.
 
 ## 7. Implementation
 
