@@ -40,7 +40,7 @@ cars = [
     }
 ]
 
-def view_cars(license_plate=None):
+def view_cars(license_plate=None, headers="keys", columns=None, available_only=None):
     """View car details based on license plate or all cars."""
     if license_plate:
         license_plate = license_plate.upper().replace(" ", "")
@@ -52,7 +52,19 @@ def view_cars(license_plate=None):
     else:
         data = cars
 
-    print(tabulate(data, headers="keys", maxcolwidths=[15] * len(data[0])))
+    # Filter data based on availability if available_only is True
+    if available_only == True:
+        data = [car for car in data if car[AVAILABLE_KEY] == "Yes"]
+    elif available_only == False:
+        data = [car for car in data if car[AVAILABLE_KEY] == "No"]
+    elif available_only == None:
+        data = [car for car in data]
+        
+    # If specific columns are provided, filter the data
+    if columns:
+        data = [{key: car[key] for key in columns} for car in data]
+
+    print(tabulate(data, headers=headers, maxcolwidths=[15] * len(data[0])))
 
 def delete_car(license_plate):
     """Delete a car from the list based on license plate."""
@@ -108,7 +120,6 @@ def add_car():
     print("Car added successfully.")
     view_cars(license_plate)
 
-
 def update_car(license_plate):
     """Update car information based on license plate."""
     license_plate = license_plate.upper().replace(" ", "")
@@ -161,23 +172,23 @@ def borrow_car(license_plate):
     for car in cars:
         if car[LICENSE_PLATE_KEY] == license_plate:
             if car[AVAILABLE_KEY] == "Yes":
-                car[BORROWER_NAME_KEY] = input("Inputower name: ")
+                car[BORROWER_NAME_KEY] = input("Input the borrower: ")
                 while True:
-                    car[CONTACT_KEY] = input("Inputtact number: ")
+                    car[CONTACT_KEY] = input("Input the borrower contact number: ")
                     if car[CONTACT_KEY].isdigit():
                         break
                     else:
                         print("Invalid input format. Please input the proper contact number.")
                 while True:
                     try:
-                        borrow_date_str = input("Inputrrow date (YYYY-MM-DD): ")
+                        borrow_date_str = input("Input the borrow date (YYYY-MM-DD): ")
                         car[BORROW_DATE_KEY] = datetime.datetime.strptime(borrow_date_str, "%Y-%m-%d").date()
                         break
                     except ValueError:
                         print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
                 while True:
                     try:
-                        return_date_str = input("Inputturn date (YYYY-MM-DD): ")
+                        return_date_str = input("Input the return date (YYYY-MM-DD): ")
                         return_date = datetime.datetime.strptime(return_date_str, "%Y-%m-%d").date()
                         if return_date < car[BORROW_DATE_KEY]:
                             print("Return date must be after borrow date. Please enter a valid return date.")
@@ -198,14 +209,16 @@ def borrow_car(license_plate):
 def clear_screen():
     """Clear the console screen."""
     os_name = platform.system()
-    input("Press Inputr to continue...")
     if os_name == 'Windows':
         os.system("cls")
     else:
         os.system("clear")
 
+def continue_screen():
+    input("Press Enter to continue...")
+
 def main():
-    """Main function to run the car rental system."""
+    """Main function to run the demo car lending system."""
     while True:
         print("""
         Welcome to the XYZ Demo Car Lending System
@@ -221,32 +234,68 @@ def main():
         try:
             menu = int(input("Please input your choice: "))
             if menu == 1:
-                license_plate = input("Input license plate (Press Enter to view all cars): ")
-                view_cars(license_plate)
-                clear_screen()
+                try:
+                    clear_screen()
+                    while True:
+                        print("""
+                        View Car Options:
+                            1. View All Cars
+                            2. View Cars Based on License Plate
+                            3. Back to Main Menu
+                        """)
+                        view_option = int(input("Please input your choice: "))
+                        if view_option == 1:
+                            view_cars()
+                            continue_screen()
+                            clear_screen()
+                        elif view_option == 2:
+                            license_plate = input("Please input the car that you want to view based on the license plate: ").upper().replace(" ","")
+                            if license_plate == "":
+                                print("You must input the license plate !")
+                                continue_screen()
+                                clear_screen()
+                                continue
+                            view_cars(license_plate)
+                            continue_screen()
+                            clear_screen()
+                        elif view_option == 3:
+                            print("Going back to menu.")
+                            continue_screen()
+                            clear_screen()
+                            break
+                        else:
+                            print("Invalid choice. Please try again.")
+                            continue
+                except Exception as ValueError:
+                    print("Please input the number of menu !")
             elif menu == 2:
-                view_cars()
+                view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
                 add_car()
+                continue_screen()
                 clear_screen()
             elif menu == 3:
-                view_cars()
+                view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
                 license_plate = input("Input license plate of the car to update: ")
                 update_car(license_plate)
+                continue_screen()
                 clear_screen()
             elif menu == 4:
-                view_cars()
+                view_cars(available_only=True)
                 license_plate = input("Input license plate of the car to borrow: ")
                 borrow_car(license_plate)
+                continue_screen()
                 clear_screen()
             elif menu == 5:
-                view_cars()
+                view_cars(available_only=False)
                 license_plate = input("Input license plate of the car to return: ")
                 return_car(license_plate)
+                continue_screen()
                 clear_screen()
             elif menu == 6:
-                view_cars()
+                view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY],available_only=True)
                 license_plate = input("Input license plate of the car to delete: ")
                 delete_car(license_plate)
+                continue_screen()
                 clear_screen()
             elif menu == 7:
                 print("Thank you, see you next time!")
