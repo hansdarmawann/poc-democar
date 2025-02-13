@@ -302,9 +302,11 @@ def main():
                 break
             else:
                 print("Invalid choice. Please try again.")
+                continue_screen()
                 clear_screen()
         except ValueError:
             print("Invalid input. Please enter a number.")
+            continue_screen()
             clear_screen()
 
 if __name__ == "__main__":
