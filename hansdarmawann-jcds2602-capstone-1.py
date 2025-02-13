@@ -131,7 +131,7 @@ def update_car(license_plate):
                 except ValueError:
                     print("Mileage must be a valid number!")
             print("Car information updated.")
-            view_cars(license_plate)
+            view_cars(car[LICENSE_PLATE_KEY])
             return
     print("Data not found.")
 
@@ -149,7 +149,7 @@ def return_car(license_plate):
                 car[RETURN_DATE_KEY] = ""
                 car[REASON_KEY] = ""
                 print("The car has been successfully returned.")
-                view_cars(license_plate)
+                view_cars(car[LICENSE_PLATE_KEY])
             else:
                 print("The car is available and has no borrower yet.")
             return
@@ -189,7 +189,7 @@ def borrow_car(license_plate):
                 car[REASON_KEY] = input("Enter reason for borrowing: ")
                 car[AVAILABLE_KEY] = "No"
                 print("Car has been successfully borrowed.")
-                view_cars(license_plate)
+                view_cars(car[LICENSE_PLATE_KEY])
             else:
                 print("The car is currently unavailable.")
             return
