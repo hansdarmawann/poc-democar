@@ -248,6 +248,119 @@ def clear_screen():
 def continue_screen():
     input("Press Enter to continue...")
 
+def view_car_submenu():
+    """Submenu for viewing cars."""
+    while True:
+        print("""
+        View Car Options:
+            1. View All Cars
+            2. View Cars Based on License Plate
+            3. Back to Main Menu
+        """)
+        try:
+            view_option = int(input("Please input your choice: "))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue_screen()
+            clear_screen()
+            continue
+
+        if view_option == 1:
+            view_cars()
+            continue_screen()
+            clear_screen()
+        elif view_option == 2:
+            license_plate = input("Please input the car that you want to view based on the license plate: ").upper().replace(" ", "")
+            if license_plate == "":
+                print("You must input the license plate!")
+                continue_screen()
+                clear_screen()
+                continue
+            view_cars(license_plate)
+            continue_screen()
+            clear_screen()
+        elif view_option == 3:
+            print("Going back to menu.")
+            continue_screen()
+            clear_screen()
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+def add_car_submenu():
+    """Submenu for adding a car."""
+    view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
+    add_car()
+    continue_screen()
+    clear_screen()
+
+def manage_car_submenu():
+    """Submenu for managing cars (Update, Borrow, Return)."""
+    while True:
+        clear_screen()
+        print("""
+        Manage Car Options:
+            1. Update Car
+            2. Borrow Car
+            3. Return Car
+            4. Back to Main Menu
+        """)
+        try:
+            manage_option = int(input("Please input your choice: "))
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue_screen()
+            clear_screen()
+            continue
+
+        if manage_option == 1:
+            view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
+            license_plate = input("Input license plate of the car to update: ").upper().replace(" ", "")
+            if not license_plate:
+                print("License plate cannot be empty!")
+                continue
+            update_car(license_plate)
+            continue_screen()
+            clear_screen()
+        elif manage_option == 2:
+            view_cars(available_only=True)
+            license_plate = input("Input license plate of the car to borrow: ").upper().replace(" ", "")
+            if not license_plate:
+                print("License plate cannot be empty!")
+                continue
+            borrow_car(license_plate)
+            continue_screen()
+            clear_screen()
+        elif manage_option == 3:
+            view_cars(available_only=False)
+            license_plate = input("Input license plate of the car to return: ").upper().replace(" ", "")
+            if not license_plate:
+                print("License plate cannot be empty!")
+                continue
+            return_car(license_plate)
+            continue_screen()
+            clear_screen()
+        elif manage_option == 4:
+            print("Going back to menu.")
+            continue_screen()
+            clear_screen()
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+def delete_car_submenu():
+    """Submenu for deleting a car."""
+    view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY], available_only=True)
+    license_plate = input("Input license plate of the car to delete: ").upper().replace(" ", "")
+    if not license_plate:
+        print("License plate cannot be empty!")
+        continue_screen()
+        clear_screen()
+        return
+    delete_car(license_plate)
+    continue_screen()
+    clear_screen()
+
 def main():
     """Main function to run the demo car lending system."""
     while True:
@@ -262,105 +375,29 @@ def main():
         """)
         try:
             menu = int(input("Please input your choice: "))
-            if menu == 1:
-                clear_screen()
-                while True:
-                    print("""
-                    View Car Options:
-                        1. View All Cars
-                        2. View Cars Based on License Plate
-                        3. Back to Main Menu
-                    """)
-                    view_option = int(input("Please input your choice: "))
-                    if view_option == 1:
-                        view_cars()
-                        continue_screen()
-                        clear_screen()
-                    elif view_option == 2:
-                        license_plate = input("Please input the car that you want to view based on the license plate: ").upper().replace(" ", "")
-                        if license_plate == "":
-                            print("You must input the license plate!")
-                            continue_screen()
-                            clear_screen()
-                            continue
-                        view_cars(license_plate)
-                        continue_screen()
-                        clear_screen()
-                    elif view_option == 3:
-                        print("Going back to menu.")
-                        continue_screen()
-                        clear_screen()
-                        break
-                    else:
-                        print("Invalid choice. Please try again.")
-            elif menu == 2:
-                view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
-                add_car()
-                continue_screen()
-                clear_screen()
-            elif menu == 3:
-                while True:
-                    print("""
-                    Manage Car Options:
-                        1. Update Car
-                        2. Borrow Car
-                        3. Return Car
-                        4. Back to Main Menu
-                    """)
-                    try:
-                        manage_option = int(input("Please input your choice: "))
-                        if manage_option == 1:
-                            view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
-                            license_plate = input("Input license plate of the car to update: ").upper().replace(" ", "")
-                            if not license_plate:
-                                print("License plate cannot be empty!")
-                                continue
-                            update_car(license_plate)
-                            continue_screen()
-                            clear_screen()
-                        elif manage_option == 2:
-                            view_cars(available_only=True)
-                            license_plate = input("Input license plate of the car to borrow: ").upper().replace(" ", "")
-                            if not license_plate:
-                                print("License plate cannot be empty!")
-                                continue
-                            borrow_car(license_plate)
-                            continue_screen()
-                            clear_screen()
-                        elif manage_option == 3:
-                            view_cars(available_only=False)
-                            license_plate = input("Input license plate of the car to return: ").upper().replace(" ", "")
-                            if not license_plate:
-                                print("License plate cannot be empty!")
-                                continue
-                            return_car(license_plate)
-                            continue_screen()
-                            clear_screen()
-                        elif manage_option == 4:
-                            print("Going back to menu.")
-                            continue_screen()
-                            clear_screen()
-                            break
-                        else:
-                            print("Invalid choice. Please try again.")
-                    except ValueError:
-                        print("Invalid input. Please enter a number.")
-            elif menu == 4:
-                view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY], available_only=True)
-                license_plate = input("Input license plate of the car to delete: ").upper().replace(" ", "")
-                if not license_plate:
-                    print("License plate cannot be empty!")
-                    continue
-                delete_car(license_plate)
-                continue_screen()
-                clear_screen()
-            elif menu == 5:
-                print("Thank you, see you next time!")
-                break
-            else:
-                print("Invalid choice. Please try again.")
-        except Exception as e:
+        except ValueError:
             print("Invalid input. Please enter a number.")
+            continue_screen()
+            clear_screen()
+            continue
+
+        if menu == 1:
+            clear_screen()
+            view_car_submenu()
+        elif menu == 2:
+            clear_screen()
+            add_car_submenu()
+        elif menu == 3:
+            clear_screen()
+            manage_car_submenu()
+        elif menu == 4:
+            clear_screen()
+            delete_car_submenu()
+        elif menu == 5:
+            print("Thank you, see you next time!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
             continue_screen()
             clear_screen()
 
