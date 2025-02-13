@@ -210,7 +210,7 @@ def main():
         print("""
         Welcome to the XYZ Car Rental System
         Please choose an option below:
-            1. View Data
+            1. View Car
             2. Add Car
             3. Update Car
             4. Borrow Car
