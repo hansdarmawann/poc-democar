@@ -225,11 +225,9 @@ def main():
         Please choose an option below:
             1. View Car
             2. Add Car
-            3. Update Car
-            4. Borrow Car
-            5. Return Car
-            6. Delete Car
-            7. Exit
+            3. Manage Car (Update, Borrow, Return)
+            4. Delete Car
+            5. Exit
         """)
         try:
             menu = int(input("Please input your choice: "))
@@ -274,30 +272,49 @@ def main():
                 continue_screen()
                 clear_screen()
             elif menu == 3:
-                view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
-                license_plate = input("Input license plate of the car to update: ")
-                update_car(license_plate)
-                continue_screen()
-                clear_screen()
+                while True:
+                    print("""
+                    Manage Car Options:
+                        1. Update Car
+                        2. Borrow Car
+                        3. Return Car
+                        4. Back to Main Menu
+                    """)
+                    manage_option = int(input("Please input your choice: "))
+                    if manage_option == 1:
+                        view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
+                        license_plate = input("Input license plate of the car to update: ")
+                        update_car(license_plate)
+                        continue_screen()
+                        clear_screen()
+                    elif manage_option == 2:
+                        view_cars(available_only=True)
+                        license_plate = input("Input license plate of the car to borrow: ")
+                        borrow_car(license_plate)
+                        continue_screen()
+                        clear_screen()
+                    elif manage_option == 3:
+                        view_cars(available_only=False)
+                        license_plate = input("Input license plate of the car to return: ")
+                        return_car(license_plate)
+                        continue_screen()
+                        clear_screen()
+                    elif manage_option == 4:
+                        print("Going back to menu.")
+                        continue_screen()
+                        clear_screen()
+                        break
+                    else:
+                        print("Invalid choice. Please try again.")
+                        continue_screen()
+                        clear_screen()
             elif menu == 4:
-                view_cars(available_only=True)
-                license_plate = input("Input license plate of the car to borrow: ")
-                borrow_car(license_plate)
-                continue_screen()
-                clear_screen()
-            elif menu == 5:
-                view_cars(available_only=False)
-                license_plate = input("Input license plate of the car to return: ")
-                return_car(license_plate)
-                continue_screen()
-                clear_screen()
-            elif menu == 6:
-                view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY],available_only=True)
+                view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY], available_only=True)
                 license_plate = input("Input license plate of the car to delete: ")
                 delete_car(license_plate)
                 continue_screen()
                 clear_screen()
-            elif menu == 7:
+            elif menu == 5:
                 print("Thank you, see you next time!")
                 break
             else:
