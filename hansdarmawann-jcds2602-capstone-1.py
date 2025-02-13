@@ -81,7 +81,7 @@ def delete_car(license_plate):
 
 def add_car():
     """Add a new car to the list."""
-    license_plate = input("Input car license plate: ").upper().replace(" ", "")
+    license_plate = input("Input new car license plate to add: ").upper().replace(" ", "")
     if not license_plate:
         print("License plate cannot be empty!")
         return
@@ -137,7 +137,7 @@ def update_car(license_plate):
                     if mileage < 0:
                         print("Mileage cannot be negative!")
                         continue
-                    car[MILEAGE_KEY] = round(mileage, 2)
+                    car[MILEAGE_KEY] = float(round(mileage, 2))
                     break
                 except ValueError:
                     print("Mileage must be a valid number!")
