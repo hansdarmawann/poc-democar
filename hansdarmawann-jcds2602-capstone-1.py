@@ -219,7 +219,7 @@ def main():
             7. Exit
         """)
         try:
-            menu = int(input("Input your choice: "))
+            menu = int(input("Please input your choice: "))
             if menu == 1:
                 license_plate = input("Input license plate (Press Enter to view all cars): ")
                 view_cars(license_plate)
