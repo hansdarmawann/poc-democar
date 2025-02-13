@@ -115,7 +115,7 @@ def update_car(license_plate):
     for car in cars:
         if car[LICENSE_PLATE_KEY] == license_plate:
             view_cars(license_plate)
-            car[LICENSE_PLATE_KEY] = input("Enter new car name (leave blank to keep current): ") or car[LICENSE_PLATE_KEY]
+            car[LICENSE_PLATE_KEY] = input("Enter new license plate (leave blank to keep current): ") or car[LICENSE_PLATE_KEY]
             car[CAR_NAME_KEY] = input("Enter new car name (leave blank to keep current): ") or car[CAR_NAME_KEY]
             while True:
                 try:
