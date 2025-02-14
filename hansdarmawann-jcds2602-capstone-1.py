@@ -92,6 +92,9 @@ def add_car():
         if any(car[LICENSE_PLATE_KEY] == license_plate for car in cars):
             print("License plate already exists. Please enter a different license plate.")
             continue
+        if len(license_plate) >= 9:
+            print('License plate length maximum 9 characters !')
+            continue
         break
 
     while True:
@@ -114,7 +117,7 @@ def add_car():
     new_car = {
         LICENSE_PLATE_KEY: license_plate,
         CAR_NAME_KEY: car_name,
-        MILEAGE_KEY: mileage,
+        MILEAGE_KEY: float(mileage),
         AVAILABLE_KEY: "Yes",
         BORROWER_NAME_KEY: "",
         CONTACT_KEY: "",
@@ -154,7 +157,7 @@ def update_car(license_plate):
                     if mileage < 0:
                         print("Mileage cannot be negative!")
                         continue
-                    car[MILEAGE_KEY] = float(round(mileage, 2))
+                    car[MILEAGE_KEY] = float(mileage)
                     break
                 except ValueError:
                     print("Mileage must be a valid number!")
