@@ -52,12 +52,20 @@ The system utilizes a list of dictionaries to represent the car data. Each dicti
 
 The system implements the following core functions to manage the demo car lending process:
 
-- **`view_cars(license_plate=None)`**: Displays car details based on the license plate or all cars if no plate is provided.
-- **`add_car()`**: Allows users to add a new car to the system with validation for unique license plates and valid mileage.
-- **`update_car(license_plate)`**: Updates existing car details based on the provided license plate.
-- **`borrow_car(license_plate)`**: Facilitates the borrowing of a car if it is available, collecting necessary borrower information.
-- **`return_car(license_plate)`**: Processes the return of a borrowed car, updating its availability status.
-- **`delete_car(license_plate)`**: Deletes a car from the system if it is available.
+- **view_cars**: Displays car details based on the license plate or all cars. It can also filter cars based on availability.
+- **delete_car**: Deletes a car from the list based on the license plate, ensuring the car is returned before deletion.
+- **add_car**: Adds a new car to the list, ensuring the license plate is unique and other details are valid.
+- **update_car**: Updates car information based on the license plate, allowing changes to the license plate, car name, mileage, and other details.
+- **return_car**: Marks a borrowed car as returned, clearing borrower information.
+- **borrow_car**: Allows borrowing a car if it is available, collecting borrower details and dates.
+- **clear_screen**: Clears the console screen based on the operating system.
+- **continue_screen**: Waits for the user to press Enter before continuing.
+- **view_car_submenu**: Provides a submenu for viewing cars.
+- **add_car_submenu**: Provides a submenu for adding a car.
+- **manage_car_submenu**: Provides a submenu for managing cars (update, borrow, return).
+- **delete_car_submenu**: Provides a submenu for deleting a car.
+- **main**: The main function that runs the car rental system, providing a menu for user interaction.
+
 
 ### Libraries Used
 
