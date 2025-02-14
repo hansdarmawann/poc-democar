@@ -147,7 +147,7 @@ def update_car(license_plate):
             view_cars(license_plate)
             
             while True:
-                new_license_plate = input("Input new license plate to add (Press Enter to ignore): ").upper().replace(" ", "")
+                new_license_plate = input("Input new license plate to update (Press Enter to ignore): ").upper().replace(" ", "")
                 if new_license_plate and any(car[LICENSE_PLATE_KEY] == new_license_plate for car in cars if car[LICENSE_PLATE_KEY] != license_plate):
                     print("License plate already exists. Please enter a different license plate.")
                     continue
