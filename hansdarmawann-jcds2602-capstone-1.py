@@ -75,8 +75,18 @@ def delete_car(license_plate):
     for car in cars:
         if car[LICENSE_PLATE_KEY] == license_plate:
             if car[AVAILABLE_KEY] == "Yes":
-                cars.remove(car)
-                print("Data deleted.")
+                while True:
+                    sure = input("Are you sure you want to delete this car ? (Yes / No):")
+                    if sure == "Yes":                        
+                        cars.remove(car)
+                        print("Car deleted.")
+                        return
+                    if sure == "No":
+                        print("Car deletion aborted.")
+                        return
+                    else:
+                        print("The input is not valid. You must choose between yes or no.")
+                        continue
             else:
                 print("The car must be returned before it can be deleted.")
             return
