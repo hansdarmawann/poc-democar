@@ -342,8 +342,13 @@ def manage_car_submenu():
                 if not license_plate:
                     print("License plate cannot be empty!")
                     continue
-                break
-            update_car(license_plate)
+                # Check if the license plate exists in the cars list
+                if any(car[LICENSE_PLATE_KEY] == license_plate for car in cars):
+                    update_car(license_plate)
+                    break
+                else:
+                    print("Car not found. Please input a valid license plate.")
+                    continue
             continue_screen()
             clear_screen()
         elif manage_option == 2:
@@ -353,8 +358,13 @@ def manage_car_submenu():
                 if not license_plate:
                     print("License plate cannot be empty!")
                     continue
-                break
-            borrow_car(license_plate)
+                # Check if the license plate exists in the cars list
+                if any(car[LICENSE_PLATE_KEY] == license_plate for car in cars):
+                    borrow_car(license_plate)
+                    break
+                else:
+                    print("Car not found. Please input a valid license plate.")
+                    continue
             continue_screen()
             clear_screen()
         elif manage_option == 3:
@@ -364,12 +374,13 @@ def manage_car_submenu():
                 if not license_plate:
                     print("License plate cannot be empty!")
                     continue
-                # if any(car for car in cars if car[LICENSE_PLATE_KEY]!=license_plate):
-                #     print("Car not found. Please input again!")
-                #     continue
-                # else:
-                break
-            return_car(license_plate)
+                # Check if the license plate exists in the cars list
+                if any(car[LICENSE_PLATE_KEY] == license_plate for car in cars):
+                    return_car(license_plate)
+                    break
+                else:
+                    print("Car not found. Please input a valid license plate.")
+                    continue
             continue_screen()
             clear_screen()
         elif manage_option == 4:
@@ -389,11 +400,20 @@ def delete_car_submenu():
         return
         
     view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
-    license_plate = input("Input license plate of the car to delete: ").upper().replace(" ", "")
-    if not license_plate:
-        print("License plate cannot be empty!")
-        return
-    delete_car(license_plate)
+    
+    # Check if the license plate exists in the cars list
+    while True:
+        license_plate = input("Input license plate of the car to delete: ").upper().replace(" ", "")
+        if not license_plate:
+            print("License plate cannot be empty!")
+            continue
+        if any(car[LICENSE_PLATE_KEY] == license_plate for car in cars):
+            delete_car(license_plate)
+            break
+        else:
+            print("Car not found. Please check the license plate and try again.")
+            continue
+    
     continue_screen()
     clear_screen()
 
