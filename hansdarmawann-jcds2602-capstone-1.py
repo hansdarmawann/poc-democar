@@ -41,12 +41,8 @@ cars = [
 ]
 
 def view_cars(license_plate=None, headers="keys", columns=None, available_only=None):
-    """View car details based on license plate or all cars."""
-    try:
-        if(len(cars)==0):
-            print("Currently no car available.")
-            return
-        
+    """View car details based on license plate or all cars."""    
+    try:       
         if license_plate:
             license_plate = license_plate.upper().replace(" ", "")
             filtered_cars = [car for car in cars if car[LICENSE_PLATE_KEY] == license_plate]
@@ -257,6 +253,9 @@ def continue_screen():
 
 def view_car_submenu():
     """Submenu for viewing cars."""
+    if len(cars) == 0:
+        print("Currently there are no cars available.")
+        return
     while True:
         print("""
         View Car Options:
@@ -303,6 +302,9 @@ def add_car_submenu():
 
 def manage_car_submenu():
     """Submenu for managing cars (Update, Borrow, Return)."""
+    if len(cars) == 0:
+        print("Currently there are no cars available.")
+        return
     while True:
         clear_screen()
         print("""
@@ -368,7 +370,8 @@ def delete_car_submenu():
     if len(cars) == 0:
         print("Currently there are no cars available.")
         return
-    view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY], available_only=True)
+        
+    view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
     license_plate = input("Input license plate of the car to delete: ").upper().replace(" ", "")
     if not license_plate:
         print("License plate cannot be empty!")
