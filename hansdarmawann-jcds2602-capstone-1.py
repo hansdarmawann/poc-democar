@@ -364,6 +364,10 @@ def manage_car_submenu():
                 if not license_plate:
                     print("License plate cannot be empty!")
                     continue
+                # if any(car for car in cars if car[LICENSE_PLATE_KEY]!=license_plate):
+                #     print("Car not found. Please input again!")
+                #     continue
+                # else:
                 break
             return_car(license_plate)
             continue_screen()
