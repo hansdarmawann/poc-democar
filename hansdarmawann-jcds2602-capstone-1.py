@@ -19,7 +19,7 @@ cars = [
     {
         LICENSE_PLATE_KEY: "B1071PDM",
         CAR_NAME_KEY: "Range Rover P615",
-        MILEAGE_KEY: 12345.678,
+        MILEAGE_KEY: 12345.67,
         AVAILABLE_KEY: "No",
         BORROWER_NAME_KEY: "Fitra Eri",
         CONTACT_KEY: "081234567891",
@@ -42,29 +42,36 @@ cars = [
 
 def view_cars(license_plate=None, headers="keys", columns=None, available_only=None):
     """View car details based on license plate or all cars."""
-    if license_plate:
-        license_plate = license_plate.upper().replace(" ", "")
-        filtered_cars = [car for car in cars if car[LICENSE_PLATE_KEY] == license_plate]
-        if not filtered_cars:
-            print("Data not found.")
+    try:
+        if(len(cars)==0):
+            print("Currently no car available.")
             return
-        data = filtered_cars
-    else:
-        data = cars
-
-    # Filter data based on availability if available_only is True
-    if available_only == True:
-        data = [car for car in data if car[AVAILABLE_KEY] == "Yes"]
-    elif available_only == False:
-        data = [car for car in data if car[AVAILABLE_KEY] == "No"]
-    elif available_only == None:
-        data = [car for car in data]
         
-    # If specific columns are provided, filter the data
-    if columns:
-        data = [{key: car[key] for key in columns} for car in data]
+        if license_plate:
+            license_plate = license_plate.upper().replace(" ", "")
+            filtered_cars = [car for car in cars if car[LICENSE_PLATE_KEY] == license_plate]
+            if not filtered_cars:
+                print("Data not found.")
+                return
+            data = filtered_cars
+        else:
+            data = cars
 
-    print(tabulate(data, headers=headers, maxcolwidths=[15] * len(data[0])))
+        # Filter data based on availability if available_only is True
+        if available_only == True:
+            data = [car for car in data if car[AVAILABLE_KEY] == "Yes"]
+        elif available_only == False:
+            data = [car for car in data if car[AVAILABLE_KEY] == "No"]
+        elif available_only == None:
+            data = [car for car in data]
+            
+        # If specific columns are provided, filter the data
+        if columns:
+            data = [{key: car[key] for key in columns} for car in data]
+
+        print(tabulate(data, headers=headers, maxcolwidths=[15] * len(data[0])))
+    except Exception as e:
+        pass
 
 def delete_car(license_plate):
     """Delete a car from the list based on license plate."""
@@ -139,11 +146,7 @@ def update_car(license_plate):
             
             car[LICENSE_PLATE_KEY] = new_license_plate or car[LICENSE_PLATE_KEY]
             
-            while True:
-                new_car_name = input("Input new car name (Press Enter to ignore): ")
-                if new_car_name:
-                    break
-            
+            new_car_name = input("Input new car name (Press Enter to ignore): ")            
             car[CAR_NAME_KEY] = new_car_name or car[CAR_NAME_KEY]
             
             while True:
@@ -168,6 +171,10 @@ def update_car(license_plate):
 
 def return_car(license_plate):
     """Return the borrowed car information based on license plate."""
+    if len(cars) == 0:
+        print("Currently there are no cars available.")
+        return
+
     license_plate = license_plate.upper().replace(" ", "")
     for car in cars:
         if car[LICENSE_PLATE_KEY] == license_plate:
@@ -266,17 +273,17 @@ def view_car_submenu():
             continue
 
         if view_option == 1:
-            view_cars()
+            view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY])
             continue_screen()
             clear_screen()
         elif view_option == 2:
-            license_plate = input("Please input the car that you want to view based on the license plate: ").upper().replace(" ", "")
-            if license_plate == "":
-                print("You must input the license plate!")
-                continue_screen()
-                clear_screen()
-                continue
-            view_cars(license_plate)
+            while True:
+                license_plate = input("Please input the car that you want to view based on the license plate: ").upper().replace(" ", "")
+                if license_plate == "":
+                    print("You must input the license plate!")
+                    continue
+                break
+            view_cars(license_plate, columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY])
             continue_screen()
             clear_screen()
         elif view_option == 3:
@@ -314,29 +321,35 @@ def manage_car_submenu():
             continue
 
         if manage_option == 1:
-            view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY])
-            license_plate = input("Input license plate of the car to update: ").upper().replace(" ", "")
-            if not license_plate:
-                print("License plate cannot be empty!")
-                continue
+            view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY])
+            while True:
+                license_plate = input("Input license plate of the car to update: ").upper().replace(" ", "")
+                if not license_plate:
+                    print("License plate cannot be empty!")
+                    continue
+                break
             update_car(license_plate)
             continue_screen()
             clear_screen()
         elif manage_option == 2:
             view_cars(available_only=True)
-            license_plate = input("Input license plate of the car to borrow: ").upper().replace(" ", "")
-            if not license_plate:
-                print("License plate cannot be empty!")
-                continue
+            while True:
+                license_plate = input("Input license plate of the car to borrow: ").upper().replace(" ", "")
+                if not license_plate:
+                    print("License plate cannot be empty!")
+                    continue
+                break
             borrow_car(license_plate)
             continue_screen()
             clear_screen()
         elif manage_option == 3:
             view_cars(available_only=False)
-            license_plate = input("Input license plate of the car to return: ").upper().replace(" ", "")
-            if not license_plate:
-                print("License plate cannot be empty!")
-                continue
+            while True:
+                license_plate = input("Input license plate of the car to return: ").upper().replace(" ", "")
+                if not license_plate:
+                    print("License plate cannot be empty!")
+                    continue
+                break
             return_car(license_plate)
             continue_screen()
             clear_screen()
@@ -347,15 +360,18 @@ def manage_car_submenu():
             break
         else:
             print("Invalid choice. Please try again.")
+            continue_screen()
+            clear_screen()
 
 def delete_car_submenu():
     """Submenu for deleting a car."""
+    if len(cars) == 0:
+        print("Currently there are no cars available.")
+        return
     view_cars(columns=[LICENSE_PLATE_KEY, CAR_NAME_KEY, MILEAGE_KEY, AVAILABLE_KEY], available_only=True)
     license_plate = input("Input license plate of the car to delete: ").upper().replace(" ", "")
     if not license_plate:
         print("License plate cannot be empty!")
-        continue_screen()
-        clear_screen()
         return
     delete_car(license_plate)
     continue_screen()
