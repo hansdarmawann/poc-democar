@@ -183,7 +183,7 @@ def return_car(license_plate):
     if len(cars) == 0:
         print("Currently there are no cars available.")
         return
-
+    
     license_plate = license_plate.upper().replace(" ", "")
     for car in cars:
         if car[LICENSE_PLATE_KEY] == license_plate:
@@ -352,6 +352,11 @@ def manage_car_submenu():
             continue_screen()
             clear_screen()
         elif manage_option == 2:
+            if all(car[AVAILABLE_KEY] == "No" for car in cars):
+                print("All cars are borrowed.")
+                continue_screen()
+                clear_screen()
+                break
             view_cars(available_only=True)
             while True:
                 license_plate = input("Input license plate of the car to borrow: ").upper().replace(" ", "")
@@ -368,6 +373,11 @@ def manage_car_submenu():
             continue_screen()
             clear_screen()
         elif manage_option == 3:
+            if all(car[AVAILABLE_KEY] == "Yes" for car in cars):
+                print("All cars are available.")
+                continue_screen()
+                clear_screen()
+                break
             view_cars(available_only=False)
             while True:
                 license_plate = input("Input license plate of the car to return: ").upper().replace(" ", "")
