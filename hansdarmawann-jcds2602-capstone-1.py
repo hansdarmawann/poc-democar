@@ -112,8 +112,8 @@ def add_car():
             print("License plate already exists. Please enter a different license plate.")
             continue
         # Validate the length of the license plate
-        if len(license_plate) >= 9:
-            print('License plate length maximum is 9 characters!')
+        if len(license_plate) > 10:
+            print('License plate length maximum is 10 characters!')
             continue
         break
 
