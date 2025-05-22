@@ -113,7 +113,7 @@ def add_car():
             continue
         # Validate the length of the license plate
         if len(license_plate) > 10:
-            print('License plate length maximum is 10 characters!')
+            print('License plate length maximum is 9 characters!')
             continue
         break
 
