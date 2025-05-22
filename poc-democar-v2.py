@@ -22,7 +22,7 @@ class Car:
     def is_available(self) -> bool:
         return self.available
 
-# Initial car data
+# Initial car data 
 
 cars: List[Car] = [
     Car(
