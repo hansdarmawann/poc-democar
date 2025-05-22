@@ -1,4 +1,4 @@
-# Proof of Concept: Demo Car Lending System at XYZ Dealer by Hans Darmawan (JCDS2602)
+# Proof of Concept: Demo Car Lending System at XYZ Dealer by Hans Darmawan
 
 ## 1. Background
 
